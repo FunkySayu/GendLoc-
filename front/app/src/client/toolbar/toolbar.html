@@ -1,0 +1,29 @@
+
+<md-toolbar>
+    <div ng-click="toogleSidenav()" class="md-toolbar-tools">
+        <span flex style="text-align: center">GendLoc</span>
+        <span flex></span>
+        <md-icon md-svg-icon="menu"></md-icon>
+    </div>
+</md-toolbar>
+
+
+<md-sidenav
+        class="md-sidenav-left"
+        md-component-id="left"
+        md-whiteframe="4">
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span flex style="text-align: center">GendLoc</span>
+        </div>
+    </md-toolbar>
+
+    <md-list>
+        <md-list-item><a class="md-button md-ink-ripple" href="#/client/transmission">Vidéo</a></md-list-item>
+        <md-list-item><a class="md-button md-ink-ripple" href="#/client/photo">Photo</a></md-list-item>
+        <md-list-item><a class="md-button md-ink-ripple" href="#/client/fiches">Texte</a></md-list-item>
+        <md-list-item><a class="md-button md-ink-ripple" href="#/client">Accueil</a></md-list-item>
+    </md-list>
+
+</md-sidenav>

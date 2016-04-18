@@ -1,5 +1,5 @@
 angular
-    .module('starterApp', ['ngMaterial', 'accueil', 'ngRoute'])
+    .module('starterApp', ['ngMaterial', 'accueil', 'transmission', 'toolbar', 'ngRoute'])
     .config(function($mdThemingProvider, $mdIconProvider, $routeProvider){
 
         $mdIconProvider
@@ -16,9 +16,19 @@ angular
          .accentPalette('red');*/
 
         $routeProvider.
-        when('/phones', {
+        when('/client', {
             templateUrl: 'src/client/accueil/accueil.html',
             controller: 'AccueilController'
+        }).
+        when('/client/transmission', {
+            templateUrl: 'src/client/transmission/transmission.html',
+            controller: 'TransmissionController'
+        }).
+        when('/client/photo', {
+            templateUrl: 'src/client/photo/photo.html'
+        }).
+        when('/client/fiches', {
+            templateUrl: 'src/client/fiches/fiches.html'
         })
 
     });

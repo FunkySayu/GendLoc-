@@ -29,6 +29,9 @@ angular
         }).
         when('/client/fiches', {
             templateUrl: 'src/client/fiches/fiches.html'
+        }).
+        when('/home', {
+            templateUrl: 'src/operateur/home.html'
         })
 
     });

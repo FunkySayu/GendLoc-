@@ -1,5 +1,5 @@
 angular
-    .module('starterApp', ['ngMaterial', 'accueil', 'transmission', 'toolbar', 'operateur', 'ngRoute', 'webrtc'])
+    .module('starterApp', ['ngMaterial', 'accueil', 'transmission', 'toolbar', 'operateur', 'ngRoute', 'webrtc', 'notification'])
     .config(function($mdThemingProvider, $mdIconProvider, $routeProvider){
 
         $mdIconProvider

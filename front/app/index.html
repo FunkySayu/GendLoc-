@@ -11,7 +11,7 @@
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="../node_modules/angular-material/angular-material.css"/>
     <link rel="stylesheet" href="assets/app.css"/>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
 
 
     <style type="text/css">
@@ -23,7 +23,7 @@
         }
     </style>
 
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
 
   </head>
 
@@ -31,17 +31,18 @@
 
     <div flex layout="column" ng-view></div>
 
+
+    <script src="/socket.io/socket.io.js"></script>
     <script src="../node_modules/angular/angular.js"></script>
     <script src="../node_modules/angular-animate/angular-animate.js"></script>
     <script src="../node_modules/angular-aria/angular-aria.js"></script>
     <script src="../node_modules/angular-material/angular-material.js"></script>
     <script src="../node_modules/angular-route/angular-route.js"></script>
     <script src="../node_modules/angular-messages/angular-messages.js"></script>
-
     <script src="https://simplewebrtc.com/latest-v2.js"></script>
-
     <script src="src/app.js"></script>
     <script src="src/operateur/services/webrtc.js"></script>
+    <script src="src/client/services/notifications.js"></script>
     <script src="src/client/toolbar/toolbar.js"></script>
     <script src="src/client/accueil/accueil.js"></script>
     <script src="src/client/accueil/accueilController.js"></script>

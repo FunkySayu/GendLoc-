@@ -10,10 +10,10 @@ function UtilisateurService($q, $timeout) {
             $timeout(function () {
                 user.state = "connected";
                 resolve();
-            }, 1000);
+            }, 3000);
 
         });
-    }
+    };
 
     return {
         ajouterUtilisateur: ajouterUtilisateur

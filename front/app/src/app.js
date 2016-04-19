@@ -10,6 +10,7 @@ angular
             .icon("hangouts"      , "./assets/svg/hangouts.svg"    , 512)
             .icon("twitter"       , "./assets/svg/twitter.svg"     , 512)
             .icon("phone"         , "./assets/svg/phone.svg"       , 512)
+            .icon("send"          , "./assets/svg/send.svg"        , 128)
             .icon("visibility"    , "./assets/svg/visibility.svg"  , 128)
             .icon("telephone-ok"  , "./assets/svg/telephone-ok.svg", 128)
             .icon("telephone-nope", "./assets/svg/telephone-nope.svg", 128);

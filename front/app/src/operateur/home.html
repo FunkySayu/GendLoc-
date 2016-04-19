@@ -14,13 +14,18 @@
         md-disable-backdrop
         md-whiteframe="4"
         >
-        <md-content layout-padding>
-            <md-input-container md-no-float="" class="md-block md-input-has-placeholder md-icon-left">
-                <md-icon aria-hidden="true" md-svg-src="phone"></md-icon>
-                <input ng-model="numero" aria-invalid="true" id="ajout-telephone" aria-label="Envoyer un SMS" class="ng-pristine ng-untouched ng-valid md-input" placeholder="Envoyer un SMS" type="text">
-                <div aria-hidden="false" class="hint" ng-show="showHints">(+33) # ## ## ## ##</div>
-                <md-button ng-click="ajouterUtilisateur(numero)">Envoyer</md-button>
-            </md-input-container>
+        <md-content>
+            <form layout="row" layout-align="center center" ng-submit="ajouterUtilisateur(numero)">
+                <div flex>
+                    <md-input-container class="md-block md-icon-left">
+                        <label>Envoyer un SMS</label>
+                        <input ng-model="numero" aria-invalid="true" id="ajout-telephone" class="md-input" placeholder="(+33) 6 42 42 13 37" type="text">
+                    </md-input-container>
+                </div>
+                <md-button class="md-icon-button" ng-submit="ajouterUtilisateur(numero)" ng-click="ajouterUtilisateur(numero)">
+                    <md-icon md-svg-src="send"></md-icon>
+                </md-button>
+            </form>
         </md-content>
         <md-toolbar class="md-theme-indigo">
             <h1 class="md-toolbar-tools">Utilisateurs</h1>

@@ -10,6 +10,19 @@ app.get('/', function (req, res) {
     res.redirect('app')
 });
 
+main.get('/fichesReflexe/:source', function(req, res) {
+    var options = {
+        root: __dirname + '/',
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }
+    };
+
+    res.sendFile("fichesReflexe/" + req.params.source, options);
+});
+
 /** SERVER INSTANCE **/
 
 app.use(express.static('../front'));
@@ -35,7 +48,7 @@ var operatorsPool = {};
 var victimsSockets = {};
 
 function defineRole(socket) {
-    return function(informations) {
+    return function (informations) {
         switch (informations['role']) {
             case 'operateur':
                 console.log('User is now considered as Operator');
@@ -54,9 +67,30 @@ io.on('connection', function (socket) {
     console.log('User connected');
     nonAssignedSockets[socket.id] = socket;
     socket.on('authentification', defineRole);
+
     setTimeout(function () {
         socket.emit('demandeVideo');
+        // TODO
     }, 2000);
+    setTimeout(function () {
+        socket.emit('demandePhoto');
+        // TODO
+    }, 4000);
+    setTimeout(function () {
+        socket.emit('envoiFicheReflex', "pollution.jpg");
+        // TODO
+    }, 4000);
+
+    socket.on('envoieFicheReflexOperateur', function (reflexLink) {
+        socket.emit('envoiFicheReflex', reflexLink);
+    });
+
+    socket.on('receptionImage', function (idClient, nomFicher) {
+        operatorsPool.foreach(function (operatorSocket) {
+            operatorSocket.emit('receptionImageOperator', idClient, nomFicher);
+        })
+    });
+
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });

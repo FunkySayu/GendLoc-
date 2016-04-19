@@ -10,7 +10,9 @@ app.get('/', function (req, res) {
     res.redirect('app')
 });
 
-main.get('/fichesReflexe/:source', function(req, res) {
+app.get('/fichesReflexe/:source', function(req, res) {
+    // Attention, :source ne gère pas une arborescence du côté client,
+    // on ne peut pas trier les fiches réflexes par catégorie par exemple
     var options = {
         root: __dirname + '/',
         dotfiles: 'deny',
@@ -77,7 +79,7 @@ io.on('connection', function (socket) {
         // TODO
     }, 4000);
     setTimeout(function () {
-        socket.emit('envoiFicheReflex', "pollution.jpg");
+        socket.emit('envoiFicheReflex', 'pollution.jpg');
         // TODO
     }, 4000);
 
@@ -89,6 +91,10 @@ io.on('connection', function (socket) {
         operatorsPool.foreach(function (operatorSocket) {
             operatorSocket.emit('receptionImageOperator', idClient, nomFicher);
         })
+    });
+
+    socket.on('demandeFicheReflex', function () {
+        // TODO
     });
 
     socket.on('disconnect', function () {

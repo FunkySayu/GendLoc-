@@ -91,7 +91,7 @@ function defineRole(socket) {
 io.on('connection', function (socket) {
     console.log('User connected');
     nonAssignedSockets[socket.id] = socket;
-    socket.on('authentification', defineRole);
+    socket.on('authentification', defineRole(socket));
 
     socket.on('demandeVideoOperateur', function (informations) {
         // Envoie de la demande d'une conversation vidéo à la victime demandée

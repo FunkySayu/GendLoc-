@@ -34,18 +34,19 @@
         </md-content>
     </md-sidenav>
 
-    <md-content class="md-default-theme" flex>
-        <div layout="row" layout-fill>
-            <div flex>
-                <div layout="column" layout-fill layout-align="top center">
-                    <div flex style="width: 100%" id="map">
+    <md-content class="md-default-theme" flex layout="column">
+        <div layout="row" layout-fill flex>
+            <div flex layout="column">
+                <div layout="column" layout-fill layout-align="top center" flex>
+                    <div flex style="width: 100%" id="map" layout="column">
                         <iframe
                             width="100%"
                             height="100%"
                             frameborder="0"
                             style="border:0"
                             src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJPyuC3dhOVg0RIb_Hh9q87kA&key=AIzaSyBr5gVdUDdgRAy9HRNr1Y5-eDrTEQ_Ie1A"
-                            allowfullscreen>
+                            allowfullscreen
+                            flex>
                         </iframe>
                     </div>
                     <!-- <div flex style="width: 100%" id="video"></div> -->

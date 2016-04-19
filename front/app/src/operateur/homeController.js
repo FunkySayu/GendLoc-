@@ -16,9 +16,9 @@
         $scope.fiches = [ ];
 
         // XXX: for debug purpose only
-        for (var i = 0; i < 10; ++i) {
+        for (var i = 0; i < 1; ++i) {
             $scope.images.push({
-                    url: "http://www.louisetzeliemartin.org/medias/images/chat-1.jpg",
+                    url: "http://www.batirama.com/images/article/3074-reglementation-incendie-2.jpg",
                     date: "Tue Apr 19 01:33:27 UTC 2016"
                 });
         }
@@ -31,7 +31,7 @@
             $scope.users.push(user);
             UtilisateurService.ajouterUtilisateur(user);
         };
-        
+
 
         // XXX: for debug purpose only
         for (i = 0; i < 10; ++i) {

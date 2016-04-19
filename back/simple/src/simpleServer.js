@@ -92,7 +92,7 @@ function defineRole(socket) {
 io.on('connection', function (socket) {
     console.log('User connected');
     nonAssignedSockets[socket.id] = socket;
-    socket.on('authentification', defineRole);
+    socket.on('authentification', defineRole(socket));
 
     /** EVENT DEMANDE OPERATEUR **/
         /* DEMANDES ENVOYEES A LA VICTIME */

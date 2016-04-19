@@ -23,6 +23,10 @@ app.get('/views/:source', function (req, res) {
 
 app.use(express.static('../front'));
 
-https.createServer({}, app).listen(443, function () {
-    console.log('Example app listening on port 3000!');
+app.listen(8081, function () {
+
 });
+
+/*https.createServer({}, app).listen(443, function () {
+    console.log('Example app listening on port 3000!');
+});*/

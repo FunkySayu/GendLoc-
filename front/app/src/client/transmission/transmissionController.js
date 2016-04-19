@@ -1,11 +1,15 @@
-angular
-    .module('transmission')
-    .controller('TransmissionController', TransmitionController);
+(function() {
+    angular
+        .module('transmission')
+        .controller('TransmissionController', TransmitionController);
 
-function TransmitionController($mdSidenav, $scope, $routeParams, WebrtcService) {
+    function TransmitionController($mdSidenav, $scope, $routeParams, WebrtcService, WebsocketCallbackService) {
 
-    var telephone = $routeParams.telephone;
+        WebsocketCallbackService.init();
 
-    WebrtcService.listenConnection(telephone);
-    
-}
+        var telephone = $routeParams.telephone;
+
+        WebrtcService.listenConnection(telephone);
+
+    }
+})();

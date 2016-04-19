@@ -1,5 +1,6 @@
-var fs = require('fs');
 var express = require('express');
+var fs = require('fs');
+var http = require('http');
 var https = require('https');
 var app = express();
 var options = {
@@ -10,6 +11,36 @@ var options = {
         'x-sent': true
     }
 };
+
+var io = require('socket.io')(http);
+var nonAssignedSockets = {};
+var operatorsPool = {};
+var victimsSockets = {};
+
+function defineRole(informations) {
+    switch (informations['role']) {
+        case 'operateur':
+            console.log('User is now considered as Operator');
+            nonAssignedSockets.delete(socket.id);
+            operatorsPool[socket.id] = socket;
+            break;
+        case 'victime':
+            console.log('User is now considered as Victim');
+            nonAssignedSockets.delete(socket.id);
+            var victim = {};
+            victim[informations['numero']] = socket;
+            victimsSockets.push(victim);
+    }
+}
+
+io.on('connection', function (socket) {
+    console.log('User connected');
+    nonAssignedSockets[socket.id] = socket;
+    socket.on('role', defineRole);
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+    });
+});
 
 app.get('/', function (req, res) {
     res.redirect('app')

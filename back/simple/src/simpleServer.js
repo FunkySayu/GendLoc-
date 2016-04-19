@@ -10,11 +10,6 @@ var options = {
         'x-sent': true
     }
 };
-//https
-var privateKey  = fs.readFileSync('privkey.pem', 'utf8');
-var certificate = fs.readFileSync('cert.pem', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
-var httpsServer = https.createServer(credentials, app);
 
 app.get('/', function (req, res) {
     res.redirect('app')
@@ -29,7 +24,17 @@ app.get('/views/:source', function (req, res) {
 
 app.use(express.static('../front'));
 
-// app.listen(8081, function () {
-// });
+app.listen(8081, function () {
+});
 
-httpsServer.listen(443);
+
+//https
+try {
+    var privateKey  = fs.readFileSync('privkey.pem', 'utf8');
+    var certificate = fs.readFileSync('cert.pem', 'utf8');
+    var credentials = {key: privateKey, cert: certificate};
+    var httpsServer = https.createServer(credentials, app);
+    httpsServer.listen(443);
+} catch (e){
+   console.log(e);
+}

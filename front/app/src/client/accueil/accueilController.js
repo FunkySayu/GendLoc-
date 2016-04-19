@@ -9,7 +9,7 @@
         
         NotificationService.connect("0645854712", "victime");
 
-        $timeout(function() {
+        NotificationService.setCbVideo(function() {
             $mdBottomSheet.show({
                 templateUrl: 'src/client/accueil/bottomNotification.html',
                 disableBackdrop: true,
@@ -19,7 +19,8 @@
                     }
                 }
             });
-        }, 3000);
+        });
+        
 
     }
 

@@ -6,23 +6,27 @@ function NotificationService() {
 
     var socket = io();
 
+    var cbVideo = undefined;
 
-    var callback;
+    var setCbVideo = function (callback) {
+        cbVideo = callback;
+    };
 
     var connect = function (numero, role) {
-        if(!socket) return;
         socket.emit('authentification', {
             numero: numero,
             role: role
         });
     };
 
-    var setCallback = function (callback) {
-        if(!socket) return;
+    socket.on('demandeVideo', function (message) {
+        if (cbVideo) cbVideo();
+    });
 
-    };
+    
 
     return {
-        connect: connect
+        connect: connect,
+        setCbVideo: setCbVideo
     }
 }

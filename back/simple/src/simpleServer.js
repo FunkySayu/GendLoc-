@@ -4,13 +4,25 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+/*
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now());
+    }
+});
+var upload = multer({ storage : storage}).single('userPhoto');
+*/
+
 /** ROUTING **/
 
 app.get('/', function (req, res) {
     res.redirect('app')
 });
 
-app.get('/fichesReflexe/:source', function(req, res) {
+app.get('/fichesReflexe/:source', function (req, res) {
     // Attention, :source ne gère pas une arborescence du côté client,
     // on ne peut pas trier les fiches réflexes par catégorie par exemple
     var options = {
@@ -24,6 +36,17 @@ app.get('/fichesReflexe/:source', function(req, res) {
 
     res.sendFile("fichesReflexe/" + req.params.source, options);
 });
+/*
+
+app.post('/fichesReflexe/upload',function(req,res){
+    upload(req,res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
+        res.end("Fiche uploadée");
+    });
+});
+*/
 
 /** SERVER INSTANCE **/
 
@@ -70,31 +93,38 @@ io.on('connection', function (socket) {
     nonAssignedSockets[socket.id] = socket;
     socket.on('authentification', defineRole);
 
-    setTimeout(function () {
-        socket.emit('demandeVideo');
-        // TODO
-    }, 2000);
-    setTimeout(function () {
-        socket.emit('demandePhoto');
-        // TODO
-    }, 4000);
-    setTimeout(function () {
-        socket.emit('envoiFicheReflex', 'pollution.jpg');
-        // TODO
-    }, 4000);
+    socket.on('demandeVideoOperateur', function (informations) {
+        // Envoie de la demande d'une conversation vidéo à la victime demandée
+        victimsSockets[informations['numero']].emit('demandeVideo');
+    });
 
-    socket.on('envoieFicheReflexOperateur', function (reflexLink) {
-        socket.emit('envoiFicheReflex', reflexLink);
+    socket.on('demandePhotoOperateur', function (informations) {
+        // Envoie de la demande d'une photo à la victime demandée
+        victimsSockets[informations['numero']].emit('demandePhoto');
+    });
+
+    socket.on('envoiFicheReflexeOperateur', function (informations) {
+        // Envoie de la fiche réflexe à la victime demandée
+        victimsSockets[informations['numero']].emit('envoiFicheReflex', informations["reflexLink"]);
     });
 
     socket.on('receptionImage', function (idClient, nomFicher) {
+        // TODO : a tester
         operatorsPool.foreach(function (operatorSocket) {
             operatorSocket.emit('receptionImageOperator', idClient, nomFicher);
         })
     });
 
-    socket.on('demandeFicheReflex', function () {
-        // TODO
+    socket.on('demandeFichesReflexeDisponibles', function () {
+        // TODO : a tester
+        var fichesReflexe = {};
+        fs.readFile(__dirname + '/fichesReflexe', 'utf8', function (err, fichesReflexe) {
+            console.log('Fiches réflexes demandées :');
+            console.log(fichesReflexe);
+            operatorsPool.foreach(function (operatorSocket) {
+                operatorSocket.emit('reponseFichesReflexeDisponibles', fichesReflexe);
+            })
+        });
     });
 
     socket.on('disconnect', function () {

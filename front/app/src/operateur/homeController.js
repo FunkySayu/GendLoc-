@@ -13,6 +13,7 @@
         $scope.selected = undefined;
         $scope.images = [ ];
         $scope.fiches = [ ];
+        $scope.videoActive = false;
 
         /** Chargement des données **/
 
@@ -42,6 +43,7 @@
 
         $scope.demanderVideo = function () {
             if (!$scope.selected) return;
+            $scope.videoActive = true;
 
             WebrtcService.listenConnection($scope.selected.phone, function(webrtc) {
                 console.log("client connecté");
@@ -83,6 +85,7 @@
 
         $scope.selectUser = function (user) {
             $scope.selected = user;
+            $scope.videoActive = false;
             console.log($scope.selected);
         }
     }

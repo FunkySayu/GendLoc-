@@ -2,7 +2,7 @@
   "name": "gendloc-",
   "version": "0.0.1",
   "description": "Gendloc extension with WebRTC video",
-  "main": "src/server.js",
+  "main": "simple/src/simpleServer.js",
   "private": true,
   "repository": {
     "type": "git",

@@ -32,13 +32,25 @@
                 $scope.fiches = fiches;
             });
 
+        // Chargement asynchrone des utilisateurs
+        function chargerUtilisateurs() {
+            UtilisateurService
+                .recupererUtilisateurs()
+                .then(function (users) {
+                    $scope.users = users;
+                });
+        }
+        chargerUtilisateurs();
+
+        // Helper pour l'ajout d'un utilisateur
         $scope.ajouterUtilisateur = function (numero) {
             var user = {
                 phone: numero,
                 state: "disconnected"
             };
-            $scope.users.push(user);
             UtilisateurService.ajouterUtilisateur(user);
+
+            chargerUtilisateurs();
         };
 
         $scope.demanderVideo = function () {
@@ -82,6 +94,33 @@
                 controller: FicheReflexDialogController
             })
         };
+
+        function deleteCurrentUser() {
+            console.log("++");
+        }
+
+        /**
+         * Open a dialog for confirming the deletion
+         */
+        $scope.confirmerSuppression = function (ev) {
+            var confirm = $mdDialog.confirm()
+                .title("Voulez vous vraiment supprimer cette session ?")
+                .textContent("Il vous sera impossible de ré-initialiser la session avec cet utilisateur.")
+                .targetEvent(ev)
+                .ok("Supprimer")
+                .cancel("Annuler");
+
+            $mdDialog.show(confirm).then(function() {
+                UtilisateurService
+                    .supprimerUtilisateur($scope.selected)
+                    .then(function() {
+                        chargerUtilisateurs();
+                        $scope.selected = undefined;
+                        $scope.videoActive = false;
+                    });
+            }, function () {});
+        }
+
 
         $scope.selectUser = function (user) {
             $scope.selected = user;

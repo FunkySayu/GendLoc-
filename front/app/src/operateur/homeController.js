@@ -4,10 +4,11 @@
         .module('operateur')
         .controller('HomeController', HomeController);
 
+    
     /**
      * Global home controller
      */
-    function HomeController($scope, $mdDialog) {
+    function HomeController($scope, $mdDialog, UtilisateurService) {
 
         $scope.users = [ ];
         $scope.selected = null;
@@ -22,13 +23,15 @@
                 });
         }
 
-        // XXX: for debug purpose only
-        for (i = 0; i < 10; ++i) {
-            $scope.users.push({
-                name: "Test Lorem",
-                phone: "+336 80 50 18 15"
-            })
-        }
+        $scope.ajouterUtilisateur = function (numero) {
+            var user = {
+                phone: numero,
+                state: "disconnected"
+            };
+            $scope.users.push(user);
+            UtilisateurService.ajouterUtilisateur(user);
+        };
+        
 
         // XXX: for debug purpose only
         for (i = 0; i < 10; ++i) {

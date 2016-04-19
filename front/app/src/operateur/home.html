@@ -13,9 +13,9 @@
         <md-content layout-padding>
             <md-input-container md-no-float="" class="md-block md-input-has-placeholder md-icon-left">
                 <md-icon aria-hidden="true" md-svg-src="phone"></md-icon>
-                <input aria-invalid="true" id="ajout-telephone" aria-label="Envoyer un SMS" class="ng-pristine ng-untouched ng-valid md-input" placeholder="Envoyer un SMS" type="text">
+                <input ng-model="numero" aria-invalid="true" id="ajout-telephone" aria-label="Envoyer un SMS" class="ng-pristine ng-untouched ng-valid md-input" placeholder="Envoyer un SMS" type="text">
                 <div aria-hidden="false" class="hint" ng-show="showHints">(+33) # ## ## ## ##</div>
-                <md-button>Envoyer</md-button>
+                <md-button ng-click="ajouterUtilisateur(numero)">Envoyer</md-button>
             </md-input-container>
         </md-content>
         <md-toolbar class="md-theme-indigo">
@@ -24,7 +24,11 @@
         <md-content flex>
             <ul class="docs-menu">
                 <li ng-repeat="u in users" class="parent-list-item">
-                    <h2 class="menu-heading md-subhead" ng-class="{'md-primary': u === selected}" ng-click="selectUser(u)">{{ u.phone }}</h2>
+                    <ul layout="row"  layout-align="space-around">
+                        <h2 class="menu-heading md-subhead" ng-class="{'md-primary': u === selected}" ng-click="selectUser(u)">{{ u.phone }} ({{u.state}})</h2>
+                        <md-progress-circular md-mode="indeterminate" ng-if="u.state == 'disconnected'"></md-progress-circular>
+                    </ul>
+
                 </li>
             </ul>
         </md-content>

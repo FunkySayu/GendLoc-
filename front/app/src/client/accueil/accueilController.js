@@ -6,10 +6,10 @@
 
 
     function AccueilController($mdBottomSheet) {
-        $mdBottomSheet.show({
+        /*$mdBottomSheet.show({
             templateUrl: 'src/client/accueil/bottomNotification.html',
             disableBackdrop: true
-        })
+        })*/
     }
 
 })();

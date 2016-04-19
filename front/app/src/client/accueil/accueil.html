@@ -1,10 +1,6 @@
+<ng-include ng-controller="ToolbarController" src="'src/client/toolbar/toolbar.html'"></ng-include>
 
-<md-toolbar>
-    <div class="md-toolbar-tools">
-        <span flex style="text-align: center">GendLoc</span>
-    </div>
-</md-toolbar>
-<md-content layout="column" layout-align="center center" layout-margin layout-padding>
+<md-content layout="column" layout-align="center center" layout-margin layout-padding flex>
     <div class="flex"></div>
     <h1 style="text-align: center">Précision de votre localisation</h1>
     <md-progress-linear md-mode="determinate" value="60"></md-progress-linear>

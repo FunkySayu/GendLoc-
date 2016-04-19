@@ -4,7 +4,8 @@ angular
 
 function PictureController($scope) {
 
-    $scope.videoUrl = undefined;
+    $scope.isSafari = navigator.userAgent.indexOf('Safari') != -1 &&
+        navigator.userAgent.indexOf('Chrome') == -1;
 
     function errorCallback(error) {
         console.log("Video capture error: ", error.code);

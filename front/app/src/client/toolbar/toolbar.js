@@ -1,11 +1,13 @@
-angular
-    .module('toolbar', [])
-    .controller("ToolbarController", ToolbarController);
+(function() {
+    angular
+        .module('toolbar', [])
+        .controller("ToolbarController", ToolbarController);
 
-function ToolbarController($scope, $mdSidenav) {
+    function ToolbarController($scope, $mdSidenav) {
 
-    $scope.toogleSidenav = function() {
-        $mdSidenav('left').open();
+        $scope.toogleSidenav = function() {
+            $mdSidenav('left').open();
+        }
+
     }
-
-}
+})();

@@ -21,13 +21,17 @@
         <md-toolbar class="md-theme-indigo">
             <h1 class="md-toolbar-tools">Utilisateurs</h1>
         </md-toolbar>
-        <md-content flex md-scroll-y layout-padding>
-            <h4 ng-repeat="u in users" class="parent-list-item">
-                <md-icon ng-if="u.state == 'connected'" md-svg-src="telephone-ok"></md-icon>
-                <md-icon ng-if="u.state != 'connected'" md-svg-src="telephone-nope"></md-icon>
-                <span flex style="padding-left: 10px" ng-click="selectUser(u)">{{ u.phone }}</span>
-                <!-- <md-progress-circular md-mode="indeterminate" ng-if="u.state == 'disconnected'"></md-progress-circular> -->
-            </h4>
+        <md-content flex md-scroll-y layout="column" layout-padding>
+            <div ng-repeat="u in users">
+                <div layout="row" layout-align="start center">
+                    <md-button flex ng-class="{'md-raised': selected == u}" class="parent-list-item" ng-click="selectUser(u)" style="text-align: left">
+                        <md-icon ng-if="u.state == 'connected'" md-svg-src="telephone-ok"></md-icon>
+                        <md-icon ng-if="u.state != 'connected'" md-svg-src="telephone-nope"></md-icon>
+                        <span style="padding-left: 10px">{{ u.phone }}</span>
+                    </md-button>
+                    <md-progress-circular md-mode="indeterminate" ng-if="u.state == 'disconnected'" style="display: inline-block"></md-progress-circular>
+                </div>
+            </div>
         </md-content>
     </md-sidenav>
 

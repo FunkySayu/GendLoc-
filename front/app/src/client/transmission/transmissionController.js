@@ -8,5 +8,4 @@ function TransmitionController($mdSidenav, $scope, $routeParams, WebrtcService) 
 
     WebrtcService.listenConnection(telephone);
     
-
 }

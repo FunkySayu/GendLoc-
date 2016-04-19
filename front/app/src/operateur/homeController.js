@@ -12,6 +12,7 @@
         $scope.users = [ ];
         $scope.selected = null;
         $scope.images = [ ];
+        $scope.fiches = [ ];
 
         // XXX: for debug purpose only
         for (var i = 0; i < 10; ++i) {
@@ -29,6 +30,15 @@
             })
         }
 
+        // XXX: for debug purpose only
+        for (i = 0; i < 10; ++i) {
+            $scope.fiches.push({
+                name: "Une fiche reflexe",
+                keywords: ["toto", "lulz", "lmao"],
+                url: "assets/fiches/pollution.jpg"
+            })
+        }
+
         /** Internal functions **/
 
         /**
@@ -41,7 +51,7 @@
                 locals: {
                     image: image
                 },
-                controller: PopupDialogController
+                controller: ImageDialogController
             });
         };
 
@@ -53,12 +63,30 @@
     /**
      * Image popup controller
      */
-    function PopupDialogController($scope, $mdDialog, image) {
+    function ImageDialogController($scope, $mdDialog, image) {
         $scope.image = image;
 
         $scope.closeDialog = function () {
             $mdDialog.hide();
         }
     }
+
+    /**
+     * "Fiche reflex" controller
+     */
+    /*
+    function FicheReflexDialocController($scope, $mdDialog, user, fiches) {
+        $scope.user = user;
+        $scope.fiches = fiches;
+        $scope.keywords = [];
+
+        var i, j;
+        for (i = 0; i < $scope.fiches.length(); ++i) {
+            for (j = 0; j < $scope.fiches[i].keywords.length(); ++j) {
+                if ($scope.keywords.indexOf($scope.fiches[i].keywords[j]) == -1)
+            }
+        }
+    }
+    */
 })();
 

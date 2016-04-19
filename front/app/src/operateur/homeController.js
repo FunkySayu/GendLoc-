@@ -66,6 +66,18 @@
             });
         };
 
+        $scope.showFiches = function () {
+            $mdDialog.show({
+                clickOutsideToClose: true,
+                templateUrl: 'src/operateur/fichesPopup.html',
+                locals: {
+                    fiches: $scope.fiches,
+                    user: $scope.selected
+                },
+                controller: FicheReflexDialogController
+            })
+        }
+
         $scope.selectUser = function (user) {
             $scope.selected = user;
         }
@@ -85,19 +97,46 @@
     /**
      * "Fiche reflex" controller
      */
-    /*
-    function FicheReflexDialocController($scope, $mdDialog, user, fiches) {
+    function FicheReflexDialogController($scope, $mdDialog, user, fiches) {
         $scope.user = user;
         $scope.fiches = fiches;
         $scope.keywords = [];
 
+        // md-autocomplete variables
+        $scope.selected = [];
+        $scope.searchText = null;
+        $scope.autocompleteDemoRequireMatch = true;
+
+        // Keywords initialization
         var i, j;
-        for (i = 0; i < $scope.fiches.length(); ++i) {
-            for (j = 0; j < $scope.fiches[i].keywords.length(); ++j) {
+        for (i = 0; i < $scope.fiches.length; ++i)
+            for (j = 0; j < $scope.fiches[i].keywords.length; ++j)
                 if ($scope.keywords.indexOf($scope.fiches[i].keywords[j]) == -1)
-            }
+                    $scope.keywords.push($scope.fiches[i].keywords[j]);
+
+        console.log($scope.keywords);
+
+        /** Internal functions **/
+
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(keyword) {
+                    return keyword.indexOf(lowercaseQuery) === 0;
+                };
+        }
+
+        $scope.querySearch = function (query) {
+            var results = query ? $scope.keywords.filter(createFilterFor(query)) : [];
+            return results;
+        }
+
+        $scope.transformChip = function (chip) {
+            return chip;
+        }
+
+        $scope.closeDialog = function () {
+            $mdDialog.hide();
         }
     }
-    */
 })();
 

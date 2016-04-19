@@ -76,6 +76,7 @@ function defineRole(socket) {
     return function (informations) {
         switch (informations['role']) {
             case 'operateur':
+                // TODO : gestion d'un envoi de mot de passe pour l'authentification en tant qu'opérateur
                 console.log('User is now considered as Operator');
                 nonAssignedSockets[socket.id] = undefined;
                 operatorsPool[socket.id] = socket;
@@ -93,6 +94,8 @@ io.on('connection', function (socket) {
     nonAssignedSockets[socket.id] = socket;
     socket.on('authentification', defineRole);
 
+    /** EVENT DEMANDE OPERATEUR **/
+        /* DEMANDES ENVOYEES A LA VICTIME */
     socket.on('demandeVideoOperateur', function (informations) {
         // Envoie de la demande d'une conversation vidéo à la victime demandée
         victimsSockets[informations['numero']].emit('demandeVideo');
@@ -108,13 +111,7 @@ io.on('connection', function (socket) {
         victimsSockets[informations['numero']].emit('envoiFicheReflex', informations["reflexLink"]);
     });
 
-    socket.on('receptionImage', function (idClient, nomFicher) {
-        // TODO : a tester
-        operatorsPool.foreach(function (operatorSocket) {
-            operatorSocket.emit('receptionImageOperator', idClient, nomFicher);
-        })
-    });
-
+        /* DEMANDES ENVOYEES AU SERVEUR UNIQUEMENT */
     socket.on('demandeFichesReflexeDisponibles', function () {
         // TODO : a tester
         var fichesReflexe = {};
@@ -126,6 +123,16 @@ io.on('connection', function (socket) {
             })
         });
     });
+
+    /** RECEPTION DE L'OPERATEUR **/
+
+    socket.on('receptionImage', function (idClient, nomFicher) {
+        // TODO : a tester
+        operatorsPool.foreach(function (operatorSocket) {
+            operatorSocket.emit('receptionImageOperator', idClient, nomFicher);
+        })
+    });
+
 
     socket.on('disconnect', function () {
         console.log('user disconnected');

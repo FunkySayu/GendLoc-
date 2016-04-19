@@ -4,17 +4,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var multer = require('multer')
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, __dirname + '/../fichesReflexe/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-})
-
-var uploadFichesReflexe = multer({ storage: storage })
+var m
 
 // TODO : transformer en BDD
 var fichesReflexeLocation = __dirname + '/../fichesReflexe';
@@ -31,6 +21,18 @@ var fichesReflexeDB = {
         url: "pollution2.jpg"
     }
 };
+
+var multer = require('multer')
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, fichesReflexeLocation)
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+
+var uploadFichesReflexe = multer({ storage: storage })
 
 /** ROUTING **/
 
@@ -61,8 +63,8 @@ app.get('/fichesReflexe', function (req, res) {
     res.send(fichesReflexeInformations);
 });
 
-app.post('/fichesReflexe', uploadFichesReflexe.array(), function (req, res, next) {
-    // TODO : upload fichier
+app.post('/fichesReflexe', uploadFichesReflexe.array('fichesReflexe'), function (req, res, next) {
+    console.log(req.file);
     // TODO : ajout BDD
 });
 

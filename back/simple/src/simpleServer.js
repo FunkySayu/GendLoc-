@@ -10,6 +10,19 @@ app.get('/', function (req, res) {
     res.redirect('app')
 });
 
+main.get('/fichesReflexe/:source', function(req, res) {
+    var options = {
+        root: __dirname + '/',
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }
+    };
+
+    res.sendFile("fichesReflexe/" + req.params.source, options);
+});
+
 /** SERVER INSTANCE **/
 
 app.use(express.static('../front'));
@@ -64,7 +77,7 @@ io.on('connection', function (socket) {
         // TODO
     }, 4000);
     setTimeout(function () {
-        socket.emit('envoiFicheReflex', "ceci est un lien");
+        socket.emit('envoiFicheReflex', "pollution.jpg");
         // TODO
     }, 4000);
 

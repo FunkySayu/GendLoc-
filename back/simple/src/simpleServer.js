@@ -4,17 +4,44 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+/*
+ var storage = multer.diskStorage({
+ destination: function (req, file, callback) {
+ callback(null, './uploads');
+ },
+ filename: function (req, file, callback) {
+ callback(null, file.fieldname + '-' + Date.now());
+ }
+ });
+ var upload = multer({ storage : storage}).single('userPhoto');
+ */
+
+// TODO : transformer en BDD
+var fichesReflexeDB = {
+    "pollution.jpg": {
+        // Valeurs d'initialisation
+        name: "Pollution 1",
+        keywords: ["pollution", "environnement"],
+        url: "pollution.jpg"
+    },
+    "pollution2.jpg": {
+        name: "Pollution 2",
+        keywords: ["pollution", "2"],
+        url: "pollution2.jpg"
+    }
+};
+
 /** ROUTING **/
 
 app.get('/', function (req, res) {
     res.redirect('app')
 });
 
-app.get('/fichesReflexe/:source', function(req, res) {
+app.get('/fichesReflexe/:source', function (req, res) {
     // Attention, :source ne gère pas une arborescence du côté client,
     // on ne peut pas trier les fiches réflexes par catégorie par exemple
     var options = {
-        root: __dirname + '/',
+        root: __dirname + '/../',
         dotfiles: 'deny',
         headers: {
             'x-timestamp': Date.now(),
@@ -22,8 +49,28 @@ app.get('/fichesReflexe/:source', function(req, res) {
         }
     };
 
-    res.sendFile("fichesReflexe/" + req.params.source, options);
+    res.sendFile("/fichesReflexe/" + req.params.source, options);
 });
+
+app.get('/fichesReflexeDisponibles', function (req, res) {
+    var fichesReflexe = fs.readdirSync(__dirname + '/../fichesReflexe', "utf8");
+    var fichesReflexeInformations = fichesReflexe.map(function (element) {
+        return fichesReflexeDB[element];
+    });
+    res.send(fichesReflexeInformations);
+});
+
+/*
+
+ app.post('/fichesReflexe/upload',function(req,res){
+ upload(req,res,function(err) {
+ if(err) {
+ return res.end("Error uploading file.");
+ }
+ res.end("Fiche uploadée");
+ });
+ });
+ */
 
 /** SERVER INSTANCE **/
 
@@ -53,6 +100,7 @@ function defineRole(socket) {
     return function (informations) {
         switch (informations['role']) {
             case 'operateur':
+                // TODO : gestion d'un envoi de mot de passe pour l'authentification en tant qu'opérateur
                 console.log('User is now considered as Operator');
                 nonAssignedSockets[socket.id] = undefined;
                 operatorsPool[socket.id] = socket;
@@ -68,34 +116,36 @@ function defineRole(socket) {
 io.on('connection', function (socket) {
     console.log('User connected');
     nonAssignedSockets[socket.id] = socket;
-    socket.on('authentification', defineRole);
+    socket.on('authentification', defineRole(socket));
 
-    setTimeout(function () {
-        socket.emit('demandeVideo');
-        // TODO
-    }, 2000);
-    setTimeout(function () {
-        socket.emit('demandePhoto');
-        // TODO
-    }, 4000);
-    setTimeout(function () {
-        socket.emit('envoiFicheReflex', 'pollution.jpg');
-        // TODO
-    }, 4000);
+    /** EVENT DEMANDE OPERATEUR **/
 
-    socket.on('envoieFicheReflexOperateur', function (reflexLink) {
-        socket.emit('envoiFicheReflex', reflexLink);
+    /* DEMANDES ENVOYEES A LA VICTIME */
+
+    socket.on('demandeVideoOperateur', function (informations) {
+        // Envoie de la demande d'une conversation vidéo à la victime demandée
+        victimsSockets[informations['numero']].emit('demandeVideo');
     });
 
+    socket.on('demandePhotoOperateur', function (informations) {
+        // Envoie de la demande d'une photo à la victime demandée
+        victimsSockets[informations['numero']].emit('demandePhoto');
+    });
+
+    socket.on('envoiFicheReflexeOperateur', function (informations) {
+        // Envoie de la fiche réflexe à la victime demandée
+        victimsSockets[informations['numero']].emit('envoiFicheReflex', informations["reflexLink"]);
+    });
+
+    /** RECEPTION DE L'OPERATEUR **/
+
     socket.on('receptionImage', function (idClient, nomFicher) {
+        // TODO : a tester
         operatorsPool.foreach(function (operatorSocket) {
             operatorSocket.emit('receptionImageOperator', idClient, nomFicher);
         })
     });
 
-    socket.on('demandeFicheReflex', function () {
-        // TODO
-    });
 
     socket.on('disconnect', function () {
         console.log('user disconnected');

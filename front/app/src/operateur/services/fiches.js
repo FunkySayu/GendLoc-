@@ -7,28 +7,17 @@
     function FicheService($q, $timeout) {
 
         // XXX: for debug purpose only
-        var fiches = [
-            {
-                name: "Une fiche reflexe 1",
-                keywords: ["toto", "lulz", "lmao"],
-                url: "assets/fiches/pollution.jpg"
-            },
-            {
-                name: "Une fiche reflexe 2",
-                keywords: ["lulz"],
-                url: "assets/fiches/pollution.jpg"
-            },
-            {
-                name: "Une fiche reflexe 3",
-                keywords: ["lulz", "lmao"],
-                url: "assets/fiches/pollution.jpg"
-            }]
+
+        var ajouterFiche = function (fiche) {
+            console.log("Heu... C'est pas fait !"); // TODO
+        };
 
         var recupererFiches = function () {
             return $q.when(fiches);
-        }
+        };
 
         return {
+            ajouterFiche: ajouterFiche,
             recupererFiches: recupererFiches
         }
     }

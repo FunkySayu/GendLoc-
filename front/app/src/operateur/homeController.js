@@ -17,14 +17,6 @@
 
         /** Chargement des données **/
 
-        // XXX: for debug purpose only
-        for (var i = 0; i < 1; ++i) {
-            $scope.images.push({
-                    url: "http://www.batirama.com/images/article/3074-reglementation-incendie-2.jpg",
-                    date: "Tue Apr 19 01:33:27 UTC 2016"
-                });
-        }
-
         // Chargement asynchrone des fiches reflexe
         FicheService
             .recupererFiches()
@@ -86,6 +78,17 @@
                 },
                 controller: ImageDialogController
             });
+        };
+
+        /**
+         * Open a dialog for adding the reflex sheet to send
+         */
+        $scope.addFiches = function () {
+            $mdDialog.show({
+                clickOutsideToClose: true,
+                templateUrl: 'src/operateur/fichesAddPopup.html',
+                controller: FicheReflexAjoutDialogController
+            })
         };
 
         /**
@@ -221,5 +224,29 @@
             $mdDialog.hide();
         }
     }
+
+    /**
+     * "Fiche reflex" controller
+     */
+    function FicheReflexAjoutDialogController($scope, $mdDialog, FicheService) {
+        // md-autocomplete variables
+        $scope.name = name;
+        $scope.keywords = ["Urgence"];
+        $scope.file = "idk";  //FIXME // TODO // XXX
+
+
+        // TODO: Trigger d'exit : à binder sur l'envoie au servvice
+        $scope.close = function (commit) {
+            if (commit) {
+                FicheService.ajouterFiche({
+                    name: $scope.name,
+                    keywords: $scope.keywords,
+                    file: $scope.file
+                })
+            }
+            $mdDialog.hide();
+        }
+    }
+
 })();
 

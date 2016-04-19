@@ -42,13 +42,23 @@
         };
 
         // XXX: for debug purpose only
-        for (i = 0; i < 10; ++i) {
-            $scope.fiches.push({
-                name: "Une fiche reflexe",
-                keywords: ["toto", "lulz", "lmao"],
-                url: "assets/fiches/pollution.jpg"
-            })
-        }
+        $scope.fiches.push({
+            name: "Une fiche reflexe 1",
+            keywords: ["toto", "lulz", "lmao"],
+            url: "assets/fiches/pollution.jpg"
+        })
+
+        $scope.fiches.push({
+            name: "Une fiche reflexe 2",
+            keywords: ["lulz"],
+            url: "assets/fiches/pollution.jpg"
+        })
+
+        $scope.fiches.push({
+            name: "Une fiche reflexe 3",
+            keywords: ["lulz", "lmao"],
+            url: "assets/fiches/pollution.jpg"
+        })
 
         /** Internal functions **/
 
@@ -66,6 +76,9 @@
             });
         };
 
+        /**
+         * Open a dialog for selecting the reflex sheet to send
+         */
         $scope.showFiches = function () {
             $mdDialog.show({
                 clickOutsideToClose: true,
@@ -102,6 +115,7 @@
         $scope.user = user;
         $scope.fiches = fiches;
         $scope.keywords = [];
+        $scope.selectedFiches = fiches;
 
         // md-autocomplete variables
         $scope.selected = [];
@@ -114,8 +128,6 @@
             for (j = 0; j < $scope.fiches[i].keywords.length; ++j)
                 if ($scope.keywords.indexOf($scope.fiches[i].keywords[j]) == -1)
                     $scope.keywords.push($scope.fiches[i].keywords[j]);
-
-        console.log($scope.keywords);
 
         /** Internal functions **/
 
@@ -131,11 +143,40 @@
             return results;
         }
 
+        function updateSelected(chip, add) {
+            var i, j;
+
+            $scope.selectedFiches = $scope.fiches.filter(function (element) {
+                for (var i = 0; i < $scope.selected.length; ++i) {
+                    if (element.keywords.indexOf($scope.selected[i]) == -1 &&
+                        $scope.selected[i] != chip)
+                        return false;
+                }
+
+                return !add || element.keywords.indexOf(chip) != -1;
+            });
+        }
+
         $scope.transformChip = function (chip) {
+            updateSelected(chip, true);
             return chip;
         }
 
+        $scope.onRemove = function (chip) {
+            updateSelected(chip, false);
+            return chip
+        }
+
         $scope.closeDialog = function () {
+            $mdDialog.hide();
+        }
+
+        $scope.getFiches = function () {
+            return $scope.fiches; // TODO
+        }
+
+        // TODO: Trigger d'exit : à binder sur l'envoie au servvice
+        $scope.selectAndExit = function (f) {
             $mdDialog.hide();
         }
     }

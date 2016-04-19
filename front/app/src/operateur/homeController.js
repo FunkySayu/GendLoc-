@@ -7,7 +7,7 @@
     /**
      * Global home controller
      */
-    function HomeController($scope, $mdDialog, UtilisateurService, FicheService, WebrtcService) {
+    function HomeController($scope, $mdDialog, UtilisateurService, PhotoService, FicheService, WebrtcService) {
 
         $scope.users = [ ];
         $scope.selected = undefined;
@@ -62,9 +62,15 @@
             });
         };
 
-        // XXX: for debug purpose only
-        /** Internal functions **/
+        function chargerPhotoUtilisateur(user) {
+            PhotoService.recupererPhotoParTelephone(user.phone)
+                .then(function (photos) {
+                    console.log(photos);
+                    $scope.images = photos
+                });
+        }
 
+        /** Internal functions **/
 
         /**
          * Open a dialog and show the full sized image
@@ -125,7 +131,7 @@
         $scope.selectUser = function (user) {
             $scope.selected = user;
             $scope.videoActive = false;
-            console.log($scope.selected);
+            chargerPhotoUtilisateur(user);
         }
     }
 

@@ -7,13 +7,13 @@ function UtilisateurService($q, $timeout) {
     var utilisateurs = [
         {
             phone: "+336 80501815",
-            state: "disconnected"
+            state: "connected"
         },
         {
             phone: "+336 01020304",
-            state: "connected"
+            state: "disconnected"
         }
-    ]
+    ];
 
     var recupererUtilisateurs = function () {
         // TODO

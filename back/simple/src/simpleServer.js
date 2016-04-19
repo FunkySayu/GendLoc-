@@ -35,7 +35,7 @@ var operatorsPool = {};
 var victimsSockets = {};
 
 function defineRole(socket) {
-    return function(informations) {
+    return function (informations) {
         switch (informations['role']) {
             case 'operateur':
                 console.log('User is now considered as Operator');
@@ -64,9 +64,13 @@ io.on('connection', function (socket) {
         // TODO
     }, 4000);
     setTimeout(function () {
-        socket.emit('envoiFicheReflex');
+        socket.emit('envoiFicheReflex', "ceci est un lien");
         // TODO
-    }, 6000);
+    }, 4000);
+
+    socket.on('envoieFicheReflexOperateur', function (reflexLink) {
+        socket.emit('envoiFicheReflex', reflexLink);
+    });
 
     socket.on('receptionImage', function (idClient, nomFicher) {
         operatorsPool.foreach(function (operatorSocket) {

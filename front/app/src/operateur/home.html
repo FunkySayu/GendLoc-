@@ -35,7 +35,7 @@
     </md-sidenav>
 
     <md-content class="md-default-theme" flex layout="column">
-        <!--<div layout="row" layout-fill flex>
+        <div layout="row" layout-fill flex>
             <div flex layout="column">
                 <div layout="column" layout-fill layout-align="top center" flex>
                     <div flex style="width: 100%" id="map" layout="column">
@@ -52,9 +52,11 @@
 
                 </div>
             </div>
-        </div>-->
-        <video height="300" id="localVideo"></video>
-        <div id="remotesVideos"></div>
+        </div>
+        <div layout="row" flex>
+            <video height="300" id="localVideo"></video>
+            <div id="remotesVideos"></div>
+        </div>
     </md-content>
 
     <md-sidenav

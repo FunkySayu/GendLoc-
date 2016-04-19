@@ -36,7 +36,7 @@
         $scope.demanderVideo = function () {
             if (!$scope.selected) return;
 
-            WebrtcService.listenConnection($scope.selected.numero, function(webrtc) {
+            WebrtcService.listenConnection($scope.selected.phone, function(webrtc) {
                 console.log("client connecté");
             });
         };
@@ -76,10 +76,11 @@
                 },
                 controller: FicheReflexDialogController
             })
-        }
+        };
 
         $scope.selectUser = function (user) {
             $scope.selected = user;
+            console.log($scope.selected);
         }
     }
 

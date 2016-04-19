@@ -19,6 +19,9 @@
 
             // we have to wait until it's ready
             webrtc.on('readyToCall', function () {
+
+                console.log(numero);
+                
                 // you can name it anything
                 webrtc.joinRoom(numero);
 

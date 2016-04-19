@@ -1,4 +1,5 @@
 var express = require('express');
+var https = require('https');
 var app = express();
 var options = {
     root: __dirname + '/',
@@ -22,6 +23,6 @@ app.get('/views/:source', function (req, res) {
 
 app.use(express.static('../front'));
 
-app.listen(8080, function () {
+https.createServer({}, app).listen(443, function () {
     console.log('Example app listening on port 3000!');
 });

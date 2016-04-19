@@ -33,7 +33,3 @@ app.use(express.static('../front'));
 // });
 
 httpsServer.listen(443);
-
-/*https.createServer({}, app).listen(443, function () {
-    console.log('Example app listening on port 3000!');
-});*/

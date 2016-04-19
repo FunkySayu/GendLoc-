@@ -1,3 +1,7 @@
+<md-toolbar class="md-small">
+    <h1 class="md-toolbar-tools">Gendloc</h1>
+</md-toolbar>
+
 <section flex layout="row" layout-fill>
     <md-sidenav
         class="md-sidenav-left"
@@ -6,48 +10,59 @@
         md-disable-backdrop
         md-whiteframe="4"
         >
+        <md-content layout-padding>
+            <md-input-container md-no-float="" class="md-block md-input-has-placeholder md-icon-left">
+                <md-icon aria-hidden="true" md-svg-src="phone"></md-icon>
+                <input ng-model="numero" aria-invalid="true" id="ajout-telephone" aria-label="Envoyer un SMS" class="ng-pristine ng-untouched ng-valid md-input" placeholder="Envoyer un SMS" type="text">
+                <div aria-hidden="false" class="hint" ng-show="showHints">(+33) # ## ## ## ##</div>
+                <md-button ng-click="ajouterUtilisateur(numero)">Envoyer</md-button>
+            </md-input-container>
+        </md-content>
         <md-toolbar class="md-theme-indigo">
             <h1 class="md-toolbar-tools">Utilisateurs</h1>
         </md-toolbar>
         <md-content flex>
             <ul class="docs-menu">
-                <li class="parent-list-item">
-                    <h2 class="menu-heading md-subhead">User 1 (phone)</h2>
-                </li>
-                <li class="parent-list-item">
-                    <h2 class="menu-heading md-subhead">User 1 (phone)</h2>
-                </li>
-                <li class="parent-list-item">
-                    <h2 class="menu-heading md-subhead">User 1 (phone)</h2>
+                <li ng-repeat="u in users" class="parent-list-item">
+                    <ul layout="row"  layout-align="space-around">
+                        <h2 class="menu-heading md-subhead" ng-class="{'md-primary': u === selected}" ng-click="selectUser(u)">{{ u.phone }} ({{u.state}})</h2>
+                        <md-progress-circular md-mode="indeterminate" ng-if="u.state == 'disconnected'"></md-progress-circular>
+                    </ul>
+
                 </li>
             </ul>
         </md-content>
     </md-sidenav>
 
-    <md-content class="md-default-theme" flex>
-        <div layout="row" layout-fill>
-            <div flex>
-                <div layout="column" layout-fill layout-align="top center">
-                    <div flex style="width: 100%" id="map">
+    <md-content class="md-default-theme" flex layout="column">
+        <div layout="row" layout-fill flex>
+            <div flex layout="column">
+                <div layout="column" layout-fill layout-align="top center" flex>
+                    <div flex style="width: 100%" id="map" layout="column">
                         <iframe
                             width="100%"
                             height="100%"
                             frameborder="0"
                             style="border:0"
                             src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJPyuC3dhOVg0RIb_Hh9q87kA&key=AIzaSyBr5gVdUDdgRAy9HRNr1Y5-eDrTEQ_Ie1A"
-                            allowfullscreen>
+                            allowfullscreen
+                            flex>
                         </iframe>
                     </div>
-                    <div flex style="width: 100%" id="video"></div>
+
                 </div>
             </div>
+        </div>
+        <div layout="row" flex>
+            <video height="300" id="localVideo"></video>
+            <div id="remotesVideos"></div>
         </div>
     </md-content>
 
     <md-sidenav
         class="md-sidenav-left"
         md-component-id="left"
-        md-is-locked-open="true"
+        md-is-locked-open="selected != null"
         md-disable-backdrop
         md-whiteframe="4"
         >
@@ -55,10 +70,10 @@
             <h1 class="md-toolbar-tools">Actions</h1>
         </md-toolbar>
         <md-content>
-            <section layout="column" layout-align="center center" layout-wrap>
-                <md-button class="md-raised md-primary">Do something</md-button>
-                <md-button class="md-raised md-primary">Do something</md-button>
-                <md-button class="md-raised md-primary">Do something</md-button>
+            <section layout="column" layout-align="center center" layout-wrap layout-padding>
+                <md-button ng-click="demanderVideo()" class="md-raised" style="width: 100%">Engager une visualisation caméra</md-button>
+                <md-button class="md-raised" style="width: 100%">Demander une photo</md-button>
+                <md-button class="md-raised" style="width: 100%" ng-click="showFiches()">Envoyer une fiche reflexe</md-button>
             </section>
         </md-content>
 
@@ -72,40 +87,11 @@
                 md-cols-xs="1" md-cols-sm="2" md-cols-md="2" md-cols-gt-md="3"
                 md-row-height-gt-md="1:1" md-row-height="2:2"
                 md-gutter="12px" md-gutter-gt-sm="8px" >
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
-                </md-grid-tile>
-                <md-grid-tile class="gray">
-                    <img src="http://img.buzzarena.com/2015/04/Chat-1.jpg" width="100%" height="100%" />
+                <md-grid-tile ng-repeat="i in images" class="gray">
+                    <img src="{{ i.url }}" width="100%" height="100%" ng-click="showImage(i)" />
                 </md-grid-tile>
             </md-grid-list>
+
         </md-content>
     </md-sidenav>
 </section>

@@ -1,5 +1,5 @@
 angular
-    .module('starterApp', ['ngMaterial', 'accueil', 'transmission', 'toolbar', 'ngRoute'])
+    .module('starterApp', ['ngMaterial', 'accueil', 'transmission', 'toolbar', 'operateur', 'ngRoute'])
     .config(function($mdThemingProvider, $mdIconProvider, $routeProvider){
 
         $mdIconProvider
@@ -9,7 +9,8 @@ angular
             .icon("google_plus", "./assets/svg/google_plus.svg" , 512)
             .icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
             .icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
-            .icon("phone"      , "./assets/svg/phone.svg"       , 512);
+            .icon("phone"      , "./assets/svg/phone.svg"       , 512)
+            .icon("visibility" , "./assets/svg/visibility.svg"  , 128);
 
         /*$mdThemingProvider.theme('default')
          .primaryPalette('brown')
@@ -31,7 +32,9 @@ angular
             templateUrl: 'src/client/fiches/fiches.html'
         }).
         when('/home', {
-            templateUrl: 'src/operateur/home.html'
+            templateUrl: 'src/operateur/home.html',
+            controller: 'HomeController'
         })
+            .otherwise("/home")
 
     });

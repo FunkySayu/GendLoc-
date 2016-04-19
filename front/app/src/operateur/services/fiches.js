@@ -6,14 +6,13 @@
 
     function FicheService($q, $timeout) {
 
-        // XXX: for debug purpose only
-
         var ajouterFiche = function (fiche) {
-            console.log("Heu... C'est pas fait !"); // TODO
+            // TODO : POST "fichesReflexe"
         };
 
         var recupererFiches = function () {
-            return $q.when(fiches);
+            // TODO : GET "fichesReflexe"
+            //return $q.when(fiches);
         };
 
         return {

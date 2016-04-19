@@ -1,5 +1,5 @@
 angular
-    .module('starterApp', ['ngMaterial', 'accueil', 'ngRoute'])
+    .module('starterApp', ['ngMaterial', 'accueil', 'operateur', 'ngRoute'])
     .config(function($mdThemingProvider, $mdIconProvider, $routeProvider){
 
         $mdIconProvider
@@ -21,7 +21,8 @@ angular
             controller: 'AccueilController'
         }).
         when('/home', {
-            templateUrl: 'src/operateur/home.html'
+            templateUrl: 'src/operateur/home.html',
+            controller: 'HomeController'
         })
 
     });

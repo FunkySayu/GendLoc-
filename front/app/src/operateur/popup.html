@@ -1,0 +1,19 @@
+
+
+<md-dialog aria-label="Mango (Fruit)"  ng-cloak>
+  <form>
+        <md-toolbar>
+            <h1 class="md-toolbar-tools">{{ image.date }}</h1>
+        </md-toolbar>
+    <md-dialog-content flex>
+        <img style="margin: auto; max-width: 100%;" alt="Lush mango tree" ng-src="{{ image.url }}">
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="closeDialog()" style="margin-right:20px;">
+        Fermer
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
+
+

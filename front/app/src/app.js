@@ -10,10 +10,7 @@ angular
             .icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
             .icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
             .icon("phone"      , "./assets/svg/phone.svg"       , 512);
-
-        /*$mdThemingProvider.theme('default')
-         .primaryPalette('brown')
-         .accentPalette('red');*/
+        
 
         $routeProvider.
         when('/client', {
@@ -34,5 +31,6 @@ angular
             templateUrl: 'src/operateur/home.html',
             controller: 'HomeController'
         })
+            .otherwise("/home")
 
     });

@@ -10,7 +10,7 @@ var options = {
 };
 
 app.get('/', function (req, res) {
-    res.sendFile('views/index.html', options);
+    res.redirect('app')
 });
 
 app.get('/js/:source', function (req, res) {
@@ -19,6 +19,9 @@ app.get('/js/:source', function (req, res) {
 app.get('/views/:source', function (req, res) {
     res.sendFile("views/" + req.params.source, options);
 });
+
+app.use(express.static('../front'));
+
 app.listen(8080, function () {
     console.log('Example app listening on port 3000!');
 });

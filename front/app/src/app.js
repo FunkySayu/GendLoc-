@@ -1,5 +1,5 @@
 angular
-    .module('starterApp', ['ngMaterial', 'accueil', 'transmission', 'toolbar', 'operateur', 'ngRoute', 'webrtc', 'notification', 'photo'])
+    .module('starterApp', ['ngMaterial', 'accueil', 'transmission', 'toolbar', 'operateur', 'ngRoute', 'webrtc', 'notification', 'photo', 'fiches'])
     .config(function($mdThemingProvider, $mdIconProvider, $routeProvider){
 
         $mdIconProvider
@@ -32,8 +32,9 @@ angular
             templateUrl: 'src/client/photo/photo.html',
             controller: 'PhotoController'
         }).
-        when('/client/fiches', {
-            templateUrl: 'src/client/fiches/fiches.html'
+        when('/client/fiches/:lien', {
+            templateUrl: 'src/client/fiches/fiches.html',
+            controller: 'FicheController'
         }).
         when('/home', {
             templateUrl: 'src/operateur/home.html',

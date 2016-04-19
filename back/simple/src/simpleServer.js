@@ -26,7 +26,7 @@ app.get('/fichesReflexe/:source', function (req, res) {
     // Attention, :source ne gère pas une arborescence du côté client,
     // on ne peut pas trier les fiches réflexes par catégorie par exemple
     var options = {
-        root: __dirname + '/',
+        root: __dirname + '/../',
         dotfiles: 'deny',
         headers: {
             'x-timestamp': Date.now(),
@@ -34,7 +34,7 @@ app.get('/fichesReflexe/:source', function (req, res) {
         }
     };
 
-    res.sendFile("fichesReflexe/" + req.params.source, options);
+    res.sendFile("/fichesReflexe/" + req.params.source, options);
 });
 /*
 

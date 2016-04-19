@@ -2,26 +2,41 @@
 <md-dialog aria-label="Mango (Fruit)"  ng-cloak>
   <form>
         <md-toolbar>
-            <h1 class="md-toolbar-tools">Yo !</h1>
+            <h1 class="md-toolbar-tools">Sélectionner la fiche reflexe à envoyer</h1>
         </md-toolbar>
-        <md-dialog-content flex>
-            <md-chips ng-model="selected" md-autocomplete-snap
-                md-transform-chip="transformChip($chip)"
-                md-require-match="autocompleteDemoRequireMatch">
-                <md-autocomplete
-                        md-selected-item="selected"
-                        md-search-text="searchText"
-                        md-items="item in querySearch(searchText)"
-                        md-item-text="item"
-                        placeholder="Rechercher par mot clé">
-                    <span md-highlight-text="searchText">{{item}}</span>
-                </md-autocomplete>
-                <md-chip-template>
-                    <span>
-                    <strong>{{$chip}}</strong>
-                    </span>
-                </md-chip-template>
-            </md-chips>
+        <md-dialog-content flex layout-padding>
+            <md-content>
+                <md-chips ng-model="selected" md-autocomplete-snap
+                    md-transform-chip="transformChip($chip)"
+                    md-require-match="autocompleteDemoRequireMatch"
+                    md-on-remove="onRemove($chip)"
+                    >
+                    <md-autocomplete
+                            md-selected-item="selected"
+                            md-search-text="searchText"
+                            md-items="item in querySearch(searchText)"
+                            md-item-text="item"
+                            placeholder="Rechercher par mot clé">
+                        <span md-highlight-text="searchText">{{item}}</span>
+                    </md-autocomplete>
+                    <md-chip-template>
+                        <span>
+                        <strong>{{$chip}}</strong>
+                        </span>
+                    </md-chip-template>
+                </md-chips>
+            </md-content>
+
+            <md-content flex md-scroll-y>
+                <md-list-item ng-repeat="f in selectedFiches" class="md-2-line">
+                    <a href="{{ f.url }}" target="_blank"><md-icon md-svg-src="visibility" class="md-avatar"></md-icon></a>
+                    <div class="md-list-item-text" ng-click="selectAndExit(f)">
+                        <h3 ng-click="selectAndExit(f)">{{ f.name }}</h3>
+                        <i ng-click="selectAndExit(f)">{{ f.keywords.join(", ") }}</i>
+                    </div>
+                </md-list-item>
+            </md-content>
+
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <md-button ng-click="closeDialog()" style="margin-right:20px;">

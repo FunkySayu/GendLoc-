@@ -23,14 +23,8 @@
         </md-toolbar>
         <md-content flex>
             <ul class="docs-menu">
-                <li class="parent-list-item">
-                    <h2 class="menu-heading md-subhead">User 1 (phone)</h2>
-                </li>
-                <li class="parent-list-item">
-                    <h2 class="menu-heading md-subhead">User 1 (phone)</h2>
-                </li>
-                <li class="parent-list-item">
-                    <h2 class="menu-heading md-subhead">User 1 (phone)</h2>
+                <li ng-repeat="u in users" class="parent-list-item">
+                    <h2 class="menu-heading md-subhead" ng-class="{'md-primary': u === selected}" ng-click="selectUser(u)">{{ u.phone }}</h2>
                 </li>
             </ul>
         </md-content>
@@ -59,7 +53,7 @@
     <md-sidenav
         class="md-sidenav-left"
         md-component-id="left"
-        md-is-locked-open="true"
+        md-is-locked-open="selected != null"
         md-disable-backdrop
         md-whiteframe="4"
         >

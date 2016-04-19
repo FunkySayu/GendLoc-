@@ -437,13 +437,13 @@ io.sockets.on('connection', function (socket) {
                             return n.id
                         }).id + 1;
 
-                    /*var existingChannel = channels.filter(function (channel) {
-                        return channel.name == outputText(channel.name.stripTags());
+                    var existingChannel = channels.filter(function (currentChannel) {
+                        return currentChannel.name == outputText(channel.name.stripTags());
                     });
 
-                    console.log(existingChannel);*/
+                    console.log(existingChannel);
                     var idChannelToJoin;
-                    //if (existingChannel.length <= 0) {
+                    if (existingChannel.length <= 0) {
                         channels.add({
                             "id": newChannelId,
                             "name": outputText(channel.name.stripTags()),
@@ -455,9 +455,10 @@ io.sockets.on('connection', function (socket) {
                             sockets[id].emit('listChannels', channels);
                         saveRoomsToJson();
                         idChannelToJoin = newChannelId;
-                    /*} else {
+                    } else {
+                        console.log("[" + socket.id + "] ERROR: channel '" + channel + "' already created, joining.");
                         idChannelToJoin = existingChannel[0].id
-                    }*/
+                    }
                     join(idChannelToJoin);
 
                 }

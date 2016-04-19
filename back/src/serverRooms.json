@@ -1,11 +1,4 @@
 [
 {"id":0,"name":"Root","father":null,"sockets":[]},
-{"id":1,"name":"0632125925","father":null,"sockets":[]},
-{"id":2,"name":"0632125925","father":null,"sockets":[]},
-{"id":3,"name":"0632125925","father":null,"sockets":[]},
-{"id":4,"name":"0632125925","father":null,"sockets":[]},
-{"id":5,"name":"0632125925","father":null,"sockets":[]},
-{"id":6,"name":"0632125925","father":null,"sockets":[]},
-{"id":7,"name":"0632125925","father":null,"sockets":[]},
-{"id":8,"name":"0632125925","father":null,"sockets":[]}
+{"id":1,"name":"0632125925","father":null,"sockets":[]}
 ]

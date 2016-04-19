@@ -35,5 +35,6 @@ angular
             templateUrl: 'src/operateur/home.html',
             controller: 'HomeController'
         })
+            .otherwise("/home")
 
     });

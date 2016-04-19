@@ -8,12 +8,13 @@
     /**
      * Global home controller
      */
-    function HomeController($scope, $mdDialog, UtilisateurService) {
+    function HomeController($scope, $mdDialog, UtilisateurService, WebrtcService) {
 
         $scope.users = [ ];
-        $scope.selected = null;
+        $scope.selected = undefined;
         $scope.images = [ ];
         $scope.fiches = [ ];
+
 
         // XXX: for debug purpose only
         for (var i = 0; i < 1; ++i) {
@@ -32,6 +33,13 @@
             UtilisateurService.ajouterUtilisateur(user);
         };
 
+        $scope.demanderVideo = function () {
+            if (!$scope.selected) return;
+
+            WebrtcService.listenConnection($scope.selected.phone, function(webrtc) {
+                console.log("client connecté");
+            });
+        };
 
         // XXX: for debug purpose only
         $scope.fiches.push({
@@ -81,10 +89,11 @@
                 },
                 controller: FicheReflexDialogController
             })
-        }
+        };
 
         $scope.selectUser = function (user) {
             $scope.selected = user;
+            console.log($scope.selected);
         }
     }
 

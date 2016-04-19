@@ -1,0 +1,34 @@
+
+<md-dialog aria-label="Mango (Fruit)"  ng-cloak>
+  <form>
+        <md-toolbar>
+            <h1 class="md-toolbar-tools">Yo !</h1>
+        </md-toolbar>
+        <md-dialog-content flex>
+            <md-chips ng-model="selected" md-autocomplete-snap
+                md-transform-chip="transformChip($chip)"
+                md-require-match="autocompleteDemoRequireMatch">
+                <md-autocomplete
+                        md-selected-item="selected"
+                        md-search-text="searchText"
+                        md-items="item in querySearch(searchText)"
+                        md-item-text="item"
+                        placeholder="Rechercher par mot clé">
+                    <span md-highlight-text="searchText">{{item}}</span>
+                </md-autocomplete>
+                <md-chip-template>
+                    <span>
+                    <strong>{{$chip}}</strong>
+                    </span>
+                </md-chip-template>
+            </md-chips>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button ng-click="closeDialog()" style="margin-right:20px;">
+                Fermer
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
+
+

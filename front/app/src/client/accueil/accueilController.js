@@ -7,9 +7,7 @@
 
     function AccueilController($mdBottomSheet, $timeout, NotificationService) {
         
-        //NotificationService.connect("0645854712", "victime");
-
-        
+        NotificationService.connect("0645854712", "victime");
 
         $timeout(function() {
             $mdBottomSheet.show({

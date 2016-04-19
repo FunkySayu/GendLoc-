@@ -48,7 +48,7 @@
         <div layout="row" layout-fill flex>
             <div flex layout="column">
                 <div layout="column" layout-fill layout-align="top center" flex>
-                    <div flex style="width: 100%" id="map" layout="column">
+                    <div ng-if="selected && selected.state == 'connected'" flex style="width: 100%" id="map" layout="column">
                         <iframe
                             width="100%"
                             height="100%"
@@ -59,7 +59,19 @@
                             flex>
                         </iframe>
                     </div>
+                    <div ng-if="selected && selected.state != 'connected'" flex style="width: 100%" layout="row", layout-align="center center">
+                        <h1>Connexion à l'appareil en cours...</h1>
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                    <div ng-if="!selected" flex style="width: 100%" layout="row" layout-align="center center">
+                        <div flex></div>
+                        <div layout-align="center">
+                            <center><h1>Bienvenue sur GendLoc</h1></center>
 
+                            <p>Sélectionnez ou ajoutez un numéro de téléphone pour commencer une session.</p>
+                        </div>
+                        <div flex></div>
+                    </div>
                 </div>
             </div>
         </div>

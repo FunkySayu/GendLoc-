@@ -34,26 +34,26 @@ var nonAssignedSockets = {};
 var operatorsPool = {};
 var victimsSockets = {};
 
-function defineRole(informations) {
-    switch (informations['role']) {
-        case 'operateur':
-            console.log('User is now considered as Operator');
-            nonAssignedSockets.delete(socket.id);
-            operatorsPool[socket.id] = socket;
-            break;
-        case 'victime':
-            console.log('User is now considered as Victim');
-            nonAssignedSockets.delete(socket.id);
-            var victim = {};
-            victim[informations['numero']] = socket;
-            victimsSockets.push(victim);
+function defineRole(socket) {
+    return function(informations) {
+        switch (informations['role']) {
+            case 'operateur':
+                console.log('User is now considered as Operator');
+                nonAssignedSockets[socket.id] = undefined;
+                operatorsPool[socket.id] = socket;
+                break;
+            case 'victime':
+                console.log('User is now considered as Victim');
+                nonAssignedSockets[socket.id] = undefined;
+                victimsSockets[informations['numero']] = socket;
+        }
     }
 }
 
 io.on('connection', function (socket) {
     console.log('User connected');
     nonAssignedSockets[socket.id] = socket;
-    socket.on('role', defineRole);
+    socket.on('authentification', defineRole);
     setTimeout(function () {
         socket.emit('demandeVideo');
     }, 2000);

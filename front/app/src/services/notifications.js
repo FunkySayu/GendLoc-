@@ -6,9 +6,12 @@ function NotificationService() {
 
     var socket = io();
 
+
+    var callback;
+
     var connect = function (numero, role) {
         if(!socket) return;
-        socket.emit('connection', {
+        socket.emit('authentification', {
             numero: numero,
             role: role
         });
@@ -16,9 +19,7 @@ function NotificationService() {
 
     var setCallback = function (callback) {
         if(!socket) return;
-        socket.onmessage = function (data) {
-            if (callback) callback(data);
-        }
+
     };
 
     return {

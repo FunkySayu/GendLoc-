@@ -54,9 +54,26 @@ io.on('connection', function (socket) {
     console.log('User connected');
     nonAssignedSockets[socket.id] = socket;
     socket.on('authentification', defineRole);
+
     setTimeout(function () {
         socket.emit('demandeVideo');
+        // TODO
     }, 2000);
+    setTimeout(function () {
+        socket.emit('demandePhoto');
+        // TODO
+    }, 4000);
+    setTimeout(function () {
+        socket.emit('envoiFicheReflex');
+        // TODO
+    }, 6000);
+
+    socket.on('receptionImage', function (idClient, nomFicher) {
+        operatorsPool.foreach(function (operatorSocket) {
+            operatorSocket.emit('receptionImageOperator', idClient, nomFicher);
+        })
+    });
+
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });

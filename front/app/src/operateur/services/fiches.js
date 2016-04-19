@@ -4,14 +4,14 @@
         .module('operateur')
         .service('FicheService', FicheService);
 
-    function FicheService($q, $timeout) {
+    function FicheService($q, $timeout, $http) {
 
         var ajouterFiche = function (fiche) {
             // TODO : POST "fichesReflexe"
         };
 
         var recupererFiches = function () {
-            // TODO : GET "fichesReflexe"
+            return $http.get('../fichesReflexe');
             //return $q.when(fiches);
         };
 

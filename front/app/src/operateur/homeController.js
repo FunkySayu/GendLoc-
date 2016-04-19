@@ -155,10 +155,11 @@
      * "Fiche reflex" controller
      */
     function FicheReflexDialogController($scope, $mdDialog, user, fiches, NotificationService) {
+        console.log(fiches);
         $scope.user = user;
-        $scope.fiches = fiches;
+        $scope.fiches = fiches.data;
         $scope.keywords = [];
-        $scope.selectedFiches = fiches;
+        $scope.selectedFiches = fiches.data;
 
         // md-autocomplete variables
         $scope.selected = [];

@@ -1,9 +1,12 @@
 angular
     .module('transmission')
-    .controller('TransmissionController', ['$mdSidenav', '$scope', TransmitionController]);
+    .controller('TransmissionController', TransmitionController);
 
-function TransmitionController($mdSidenav, $scope) {
+function TransmitionController($mdSidenav, $scope, $routeParams, WebrtcService) {
 
+    var telephone = $routeParams.telephone;
+
+    WebrtcService.listenConnection(telephone);
     
 
 }

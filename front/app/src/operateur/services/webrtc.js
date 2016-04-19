@@ -1,6 +1,6 @@
 (function() {
     angular
-        .module('operateur')
+        .module('webrtc', [])
         .service('WebrtcService', WebrtcService);
 
     function WebrtcService() {

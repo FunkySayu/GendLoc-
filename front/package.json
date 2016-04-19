@@ -14,9 +14,10 @@
     "angular": "^1.5.0",
     "angular-animate": "^1.5.0",
     "angular-aria": "^1.5.0",
-    "angular-route": "^1.5.0",
+    "angular-material": "^1.0.0",
     "angular-messages": "^1.5.0",
-    "angular-material": "^1.0.0"
+    "angular-route": "^1.5.0",
+    "socket.io": "^1.4.5"
   },
   "devDependencies": {
     "live-server": "^0.9.1"

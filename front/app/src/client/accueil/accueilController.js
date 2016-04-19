@@ -5,7 +5,10 @@
         .controller('AccueilController', AccueilController);
 
 
-    function AccueilController($mdBottomSheet, $timeout) {
+    function AccueilController($mdBottomSheet, $timeout, NotificationService) {
+        
+        NotificationService.connect("0645854712", "victime");
+
         $timeout(function() {
             $mdBottomSheet.show({
                 templateUrl: 'src/client/accueil/bottomNotification.html',

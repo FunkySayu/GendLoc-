@@ -2,33 +2,44 @@ angular
     .module('photo')
     .controller('PhotoController', PictureController);
 
-function PictureController() {
+function PictureController($scope) {
 
-	var canvas = document.getElementById("canvas"),
-		context = canvas.getContext("2d"),
-		video = document.getElementById("photo"),
-		videoObj = { "video": true },
-		errBack = function(error) {
-			console.log("Video capture error: ", error.code); 
-		};
+	var video,
+	videoObj,
+	errBack = function(error) {
+		console.log("Video capture error: ", error.code); 
+	};
 
-	// Put video listeners into place
-	if(navigator.getUserMedia) { // Standard
-		navigator.getUserMedia(videoObj, function(stream) {
-			video.src = stream;
-			video.play();
-		}, errBack);
-	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-		navigator.webkitGetUserMedia(videoObj, function(stream){
-			video.src = window.webkitURL.createObjectURL(stream);
-			video.play();
-		}, errBack);
+	function detect_safari() {}
+		var ua = navigator.userAgent.toLowerCase(); 
+		if (ua.indexOf('safari') > 0)
+			return true
+		return false
 	}
-	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-		navigator.mozGetUserMedia(videoObj, function(stream){
-			video.src = window.URL.createObjectURL(stream);
-			video.play();
-		}, errBack);
+
+	$scope.onloadvideo = function(elem) {
+
+		video = elem;
+		videoObj = { "video": true };
+				// Put video listeners into place
+		if(navigator.getUserMedia) { // Standard
+			navigator.getUserMedia(videoObj, function(stream) {
+				video.src = stream;
+				video.play();
+			}, errBack);
+		} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+			navigator.webkitGetUserMedia(videoObj, function(stream){
+				video.src = window.webkitURL.createObjectURL(stream);
+				video.play();
+			}, errBack);
+		}
+		else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+			navigator.mozGetUserMedia(videoObj, function(stream){
+				video.src = window.URL.createObjectURL(stream);
+				video.play();
+			}, errBack);
+		}
+
 	}
 
 	document.getElementById("snap").addEventListener("click", function() {

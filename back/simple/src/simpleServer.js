@@ -1,3 +1,4 @@
+var fs = require('fs');
 var express = require('express');
 var https = require('https');
 var app = express();
@@ -9,6 +10,11 @@ var options = {
         'x-sent': true
     }
 };
+//https
+var privateKey  = fs.readFileSync('privkey.pem', 'utf8');
+var certificate = fs.readFileSync('cert.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+var httpsServer = https.createServer(credentials, app);
 
 app.get('/', function (req, res) {
     res.redirect('app')
@@ -23,9 +29,10 @@ app.get('/views/:source', function (req, res) {
 
 app.use(express.static('../front'));
 
-app.listen(8081, function () {
+// app.listen(8081, function () {
+// });
 
-});
+httpsServer.listen(443);
 
 /*https.createServer({}, app).listen(443, function () {
     console.log('Example app listening on port 3000!');

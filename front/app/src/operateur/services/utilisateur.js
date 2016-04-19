@@ -2,15 +2,15 @@ angular
     .module('operateur')
     .service('UtilisateurService', UtilisateurService);
 
-function UtilisateurService($q, $timeout) {
+function UtilisateurService($http, $q, $timeout) {
 
     var utilisateurs = [
         {
-            phone: "+336 80501815",
+            phone: "0680501815",
             state: "connected"
         },
         {
-            phone: "+336 01020304",
+            phone: "0601020304",
             state: "disconnected"
         }
     ];

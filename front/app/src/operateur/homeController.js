@@ -56,9 +56,9 @@
         $scope.demanderVideo = function () {
             if (!$scope.selected) return;
             $scope.videoActive = true;
+            $scope.videoEstablished = false;
 
             WebrtcService.listenConnection($scope.selected.phone, function(webrtc) {
-                console.log("client connecté");
             });
         };
 

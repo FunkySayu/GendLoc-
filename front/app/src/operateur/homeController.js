@@ -155,7 +155,6 @@
      * "Fiche reflex" controller
      */
     function FicheReflexDialogController($scope, $mdDialog, user, fiches, NotificationService) {
-        console.log(fiches);
         $scope.user = user;
         $scope.fiches = fiches.data;
         $scope.keywords = [];

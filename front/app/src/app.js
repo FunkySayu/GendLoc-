@@ -28,7 +28,7 @@ angular
             templateUrl: 'src/client/transmission/transmission.html',
             controller: 'TransmissionController'
         }).
-        when('/client/photo/:telephone?', {
+        when('/client/photo/:telephone', {
             templateUrl: 'src/client/photo/photo.html',
             controller: 'PhotoController'
         }).

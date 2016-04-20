@@ -49,8 +49,6 @@
             };
             UtilisateurService.ajouterUtilisateur(user);
 
-
-            chargerUtilisateurs();
         };
 
         $scope.demanderVideo = function () {
@@ -136,12 +134,11 @@
                 UtilisateurService
                     .supprimerUtilisateur($scope.selected)
                     .then(function() {
-                        chargerUtilisateurs();
                         $scope.selected = undefined;
                         $scope.videoActive = false;
                     });
             }, function () {});
-        }
+        };
 
 
         $scope.selectUser = function (user) {

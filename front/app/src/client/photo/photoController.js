@@ -2,7 +2,9 @@ angular
     .module('photo')
     .controller('PhotoController', PictureController);
 
-function PictureController($scope) {
+function PictureController($scope, ImageService) {
+
+    $scope.data = undefined;
 
     $scope.isSafari = navigator.userAgent.indexOf('Safari') != -1 &&
         navigator.userAgent.indexOf('Chrome') == -1;
@@ -37,12 +39,23 @@ function PictureController($scope) {
         }
     }
 
+    function send() {
+        console.log(data); // TODO
+    }
+
     /** Trigger the click evvent on the snap button **/
     $scope.takePicture = function () {
         var canvas = document.getElementById("canvas");
         var video = document.getElementById("photo");
         var context = canvas.getContext("2d");
         context.drawImage(video, 0, 0, 640, 480);
+        data = canvas.toDataURL("image/png");
+
+        send();
+    }
+
+    $scope.submitSafari = function (e) {
+        // TODO
     }
 
 }

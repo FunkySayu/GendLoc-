@@ -15,19 +15,17 @@
                donc les navigateurs
         -->
         <div ng-if="isSafari">
-            <input type="file" accept="image/*">
+            <form name="safari-form" ng-submit="submitSafari()">
+                <input ng-model="data" type="file" accept="image/*">
+                <md-button ng-click="submitSafari()">Envoyer la photo</md-button>
+            </form>
         </div>
 
         <!-- Tout autre navigateur peut embed un champ vidéo -->
         <div ng-if="!isSafari" layout="column">
             <video ng-init="loadVideoStream()" id="photo" width="640" height="480" ng-src="videoUrl" autoplay></video>
-            <button ng-click="takePicture()">Snap Photo</button>
-            <canvas id="canvas" width="640" height="480"></canvas>
-            <md-card-actions style="margin-bottom: 10px" layout="row" layout-align="center center">
-                <md-button class="md-primary">Filmer</md-button>
-                <md-button class="md-warn">Interrompre</md-button>
-            </md-card-actions>
-
+            <button ng-click="takePicture()">Envoyer la photo</button>
+            <canvas id="canvas" style="opacity: 0" width="640" height="480"></canvas>
         </div>
     </md-card>
 

@@ -29,10 +29,10 @@
 
             <md-content flex md-scroll-y>
                 <md-list-item ng-repeat="f in selectedFiches" class="md-2-line">
-                    <a href="{{ f.url }}" target="_blank"><md-icon md-svg-src="visibility" class="md-avatar"></md-icon></a>
+                    <a target="_blank"><md-icon md-svg-src="visibility" class="md-avatar"></md-icon></a>
                     <div class="md-list-item-text" ng-click="selectAndExit(f)">
-                        <h3 ng-click="selectAndExit(f)">{{ f.name }}</h3>
-                        <i ng-click="selectAndExit(f)">{{ f.keywords.join(", ") }}</i>
+                        <h3>{{ f.name }}</h3>
+                        <i>{{ f.keywords.join(", ") }}</i>
                     </div>
                 </md-list-item>
             </md-content>

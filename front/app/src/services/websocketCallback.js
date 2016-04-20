@@ -16,7 +16,9 @@
             NotificationService.setCbVideo(function () {
                 $mdBottomSheet.show({
                     templateUrl: 'src/client/accueil/bottomSheet/video.html',
-                    controller: function ($scope, $mdBottomSheet) {
+                    locals:{telephone: $routeParams.telephone},
+                    controller: function ($scope, $mdBottomSheet, telephone) {
+                        $scope.telephone = telephone;
                         $scope.fermer = function () {
                             $mdBottomSheet.hide();
                         }

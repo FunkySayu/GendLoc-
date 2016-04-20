@@ -27,7 +27,9 @@
             NotificationService.setCbPhoto(function () {
                 $mdBottomSheet.show({
                     templateUrl: 'src/client/accueil/bottomSheet/photo.html',
-                    controller: function ($scope, $mdBottomSheet) {
+                    locals:{telephone: $routeParams.telephone},
+                    controller: function ($scope, $mdBottomSheet, telephone) {
+                        $scope.telephone = telephone;
                         $scope.fermer = function () {
                             $mdBottomSheet.hide();
                         }

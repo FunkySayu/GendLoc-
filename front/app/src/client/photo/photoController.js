@@ -2,7 +2,7 @@ angular
     .module('photo')
     .controller('PhotoController', PictureController);
 
-function PictureController($scope, PhotoService) {
+function PictureController($scope, $http, PhotoService, $routeParams) {
 
     $scope.safariData = undefined;
     $scope.photo = undefined;
@@ -41,7 +41,7 @@ function PictureController($scope, PhotoService) {
     }
 
     function send() {
-        console.log($scope.photo); // TODO
+        $http.post('../uploadPhoto', {photo : $scope.photo, numero : $routeParams.telephone}); // TODO
     }
 
     /** Trigger the click evvent on the snap button **/

@@ -1,1 +1,1 @@
-angular.module('photo', [])
+angular.module('photo', []);

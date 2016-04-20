@@ -9,10 +9,10 @@
             </md-card-title-text>
         </md-card-title>
         <!-- <img class="md-card-image" src="assets/placeholder/placeholder.png"> -->
-        <video id="photo" width="640" height="480" autoplay></video>
-        <button id="snap">Snap Photo</button>
-        <canvas id="canvas" width="640" height="480"></canvas>
         <input type="file" accept="image/*;capture=camera">
+        <video ng-init="loadVideoStream()" id="photo" width="640" height="480" ng-src="videoUrl" autoplay></video>
+        <button ng-click="takePicture()">Snap Photo</button>
+        <canvas id="canvas" width="640" height="480"></canvas>
         <md-card-actions style="margin-bottom: 10px" layout="row" layout-align="center center">
             <md-button class="md-primary">Filmer</md-button>
             <md-button class="md-warn">Interrompre</md-button>

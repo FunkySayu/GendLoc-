@@ -4,19 +4,10 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-/*
- var storage = multer.diskStorage({
- destination: function (req, file, callback) {
- callback(null, './uploads');
- },
- filename: function (req, file, callback) {
- callback(null, file.fieldname + '-' + Date.now());
- }
- });
- var upload = multer({ storage : storage}).single('userPhoto');
- */
+var m
 
 // TODO : transformer en BDD
+var fichesReflexeLocation = __dirname + '/../fichesReflexe';
 var fichesReflexeDB = {
     "pollution.jpg": {
         // Valeurs d'initialisation
@@ -30,6 +21,18 @@ var fichesReflexeDB = {
         url: "pollution2.jpg"
     }
 };
+
+var multer = require('multer')
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, fichesReflexeLocation)
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+
+var uploadFichesReflexe = multer({ storage: storage })
 
 /** ROUTING **/
 
@@ -52,16 +55,20 @@ app.get('/fichesReflexe/:source', function (req, res) {
     res.sendFile("/fichesReflexe/" + req.params.source, options);
 });
 
-app.get('/fichesReflexeDisponibles', function (req, res) {
-    var fichesReflexe = fs.readdirSync(__dirname + '/../fichesReflexe', "utf8");
+app.get('/fichesReflexe', function (req, res) {
+    var fichesReflexe = fs.readdirSync(fichesReflexeLocation, "utf8");
     var fichesReflexeInformations = fichesReflexe.map(function (element) {
         return fichesReflexeDB[element];
     });
     res.send(fichesReflexeInformations);
 });
 
-/*
+app.post('/fichesReflexe', uploadFichesReflexe.array('fichesReflexe'), function (req, res, next) {
+    console.log(req.file);
+    // TODO : ajout BDD
+});
 
+/*
  app.post('/fichesReflexe/upload',function(req,res){
  upload(req,res,function(err) {
  if(err) {

@@ -129,12 +129,12 @@ function defineRole(socket) {
         switch (informations['role']) {
             case 'operateur':
                 // TODO : gestion d'un envoi de mot de passe pour l'authentification en tant qu'opérateur
-                console.log('User is now considered as Operator');
+                console.log('User ' + informations['numero'] + ' is now considered as Operator');
                 nonAssignedSockets[socket.id] = undefined;
                 operatorsPool[socket.id] = socket;
                 break;
             case 'victime':
-                console.log('User is now considered as Victim');
+                console.log('User ' + informations['numero'] + ' is now considered as Victim');
                 nonAssignedSockets[socket.id] = undefined;
                 victimsSockets[informations['numero']] = socket;
         }

@@ -3,11 +3,15 @@
         .module('notification')
         .service('WebsocketCallbackService', WebsocketCallbackService);
 
-    function WebsocketCallbackService($mdBottomSheet, NotificationService) {
+    function WebsocketCallbackService($mdBottomSheet, NotificationService, $routeParams) {
 
         var initialisation = function() {
 
-            NotificationService.connect("0645854712", "victime");
+            if (!$routeParams.telephone) {
+                $routeParams.telephone = "0645854712"
+            }
+
+            NotificationService.connect($routeParams.telephone, "victime");
 
             NotificationService.setCbVideo(function () {
                 $mdBottomSheet.show({

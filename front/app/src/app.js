@@ -20,7 +20,7 @@ angular
          .accentPalette('red');*/
 
         $routeProvider.
-        when('/client/', {
+        when('/client/:telephone?', {
             templateUrl: 'src/client/accueil/accueil.html',
             controller: 'AccueilController'
         }).
@@ -28,11 +28,11 @@ angular
             templateUrl: 'src/client/transmission/transmission.html',
             controller: 'TransmissionController'
         }).
-        when('/client/photo', {
+        when('/client/photo/:telephone?', {
             templateUrl: 'src/client/photo/photo.html',
             controller: 'PhotoController'
         }).
-        when('/client/fiches/:lien', {
+        when('/client/fiches/:lien/:telephone?', {
             templateUrl: 'src/client/fiches/fiches.html',
             controller: 'FicheController'
         }).

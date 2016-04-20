@@ -53,7 +53,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/connectedVictims', function (req, res) {
-    res.send(victimsSockets.keys());
+    res.send(Object.getOwnPropertyNames(victimsSockets));
 });
 
 app.get('/fichesReflexe/:source', function (req, res) {
@@ -123,9 +123,7 @@ try {
     io = require('socket.io').listen(httpsServer);
     httpsServer.listen(443);
 } catch (e) {
-    console.log(e);
-    http.listen(8081, function () {
-    });
+    http.listen(8081, function () {});
 }
 
 /** SOCKET MANAGMENT **/

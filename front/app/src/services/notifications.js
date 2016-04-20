@@ -27,6 +27,19 @@ function NotificationService() {
         });
     };
 
+    var envoieFicheReflexe = function (numero, lien) {
+        socket.emit('envoiFicheReflexeOperateur', {
+            numero: numero,
+            reflexLink: lien
+        })
+    };
+
+    var demanderVideo = function(numero) {
+        socket.emit('demandeVideoOperateur', {
+            numero: numero
+        });
+    };
+
     socket.on('demandeVideo', function (message) {
         if (cbVideo) cbVideo();
     });
@@ -45,6 +58,8 @@ function NotificationService() {
         connect: connect,
         setCbVideo: setCbVideo,
         setCbPhoto: setCbPhoto,
-        setCbTexte: setCbTexte
+        setCbTexte: setCbTexte,
+        envoieFicheReflexe: envoieFicheReflexe,
+        demanderVideo: demanderVideo
     }
 }

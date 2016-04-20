@@ -6,7 +6,7 @@ function UtilisateurService($http, $q, $timeout) {
 
     var utilisateurs = [
         {
-            phone: "0680501815",
+            phone: "0645854712",
             state: "connected"
         },
         {

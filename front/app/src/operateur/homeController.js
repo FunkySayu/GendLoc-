@@ -7,7 +7,7 @@
     /**
      * Global home controller
      */
-    function HomeController($scope, $mdDialog, UtilisateurService, PhotoService, FicheService, WebrtcService) {
+    function HomeController($scope, $mdDialog, UtilisateurService, PhotoService, FicheService, WebrtcService, NotificationService) {
 
         $scope.users = [ ];
         $scope.selected = undefined;
@@ -49,6 +49,8 @@
             if (!$scope.selected) return;
             $scope.videoActive = true;
             $scope.videoEstablished = false;
+
+            NotificationService.demanderVideo($scope.selected.phone);
 
             WebrtcService.listenConnection($scope.selected.phone, function(webrtc) {
             });
@@ -152,7 +154,7 @@
     /**
      * "Fiche reflex" controller
      */
-    function FicheReflexDialogController($scope, $mdDialog, user, fiches) {
+    function FicheReflexDialogController($scope, $mdDialog, user, fiches, NotificationService) {
         $scope.user = user;
         $scope.fiches = fiches;
         $scope.keywords = [];
@@ -218,6 +220,7 @@
 
         // TODO: Trigger d'exit : à binder sur l'envoie au servvice
         $scope.selectAndExit = function (f) {
+            NotificationService.envoieFicheReflexe(user.phone, f.url);
             $mdDialog.hide();
         }
     }

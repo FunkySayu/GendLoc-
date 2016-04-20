@@ -5,16 +5,31 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 /*
-var storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, './uploads');
+ var storage = multer.diskStorage({
+ destination: function (req, file, callback) {
+ callback(null, './uploads');
+ },
+ filename: function (req, file, callback) {
+ callback(null, file.fieldname + '-' + Date.now());
+ }
+ });
+ var upload = multer({ storage : storage}).single('userPhoto');
+ */
+
+// TODO : transformer en BDD
+var fichesReflexeDB = {
+    "pollution.jpg": {
+        // Valeurs d'initialisation
+        name: "Pollution 1",
+        keywords: ["pollution", "environnement"],
+        url: "pollution.jpg"
     },
-    filename: function (req, file, callback) {
-        callback(null, file.fieldname + '-' + Date.now());
+    "pollution2.jpg": {
+        name: "Pollution 2",
+        keywords: ["pollution", "2"],
+        url: "pollution2.jpg"
     }
-});
-var upload = multer({ storage : storage}).single('userPhoto');
-*/
+};
 
 /** ROUTING **/
 
@@ -36,17 +51,26 @@ app.get('/fichesReflexe/:source', function (req, res) {
 
     res.sendFile("/fichesReflexe/" + req.params.source, options);
 });
+
+app.get('/fichesReflexeDisponibles', function (req, res) {
+    var fichesReflexe = fs.readdirSync(__dirname + '/../fichesReflexe', "utf8");
+    var fichesReflexeInformations = fichesReflexe.map(function (element) {
+        return fichesReflexeDB[element];
+    });
+    res.send(fichesReflexeInformations);
+});
+
 /*
 
-app.post('/fichesReflexe/upload',function(req,res){
-    upload(req,res,function(err) {
-        if(err) {
-            return res.end("Error uploading file.");
-        }
-        res.end("Fiche uploadée");
-    });
-});
-*/
+ app.post('/fichesReflexe/upload',function(req,res){
+ upload(req,res,function(err) {
+ if(err) {
+ return res.end("Error uploading file.");
+ }
+ res.end("Fiche uploadée");
+ });
+ });
+ */
 
 /** SERVER INSTANCE **/
 
@@ -95,7 +119,9 @@ io.on('connection', function (socket) {
     socket.on('authentification', defineRole(socket));
 
     /** EVENT DEMANDE OPERATEUR **/
-        /* DEMANDES ENVOYEES A LA VICTIME */
+
+    /* DEMANDES ENVOYEES A LA VICTIME */
+
     socket.on('demandeVideoOperateur', function (informations) {
         // Envoie de la demande d'une conversation vidéo à la victime demandée
         victimsSockets[informations['numero']].emit('demandeVideo');
@@ -109,19 +135,6 @@ io.on('connection', function (socket) {
     socket.on('envoiFicheReflexeOperateur', function (informations) {
         // Envoie de la fiche réflexe à la victime demandée
         victimsSockets[informations['numero']].emit('envoiFicheReflex', informations["reflexLink"]);
-    });
-
-        /* DEMANDES ENVOYEES AU SERVEUR UNIQUEMENT */
-    socket.on('demandeFichesReflexeDisponibles', function () {
-        // TODO : a tester
-        var fichesReflexe = {};
-        fs.readFile(__dirname + '/fichesReflexe', 'utf8', function (err, fichesReflexe) {
-            console.log('Fiches réflexes demandées :');
-            console.log(fichesReflexe);
-            operatorsPool.foreach(function (operatorSocket) {
-                operatorSocket.emit('reponseFichesReflexeDisponibles', fichesReflexe);
-            })
-        });
     });
 
     /** RECEPTION DE L'OPERATEUR **/

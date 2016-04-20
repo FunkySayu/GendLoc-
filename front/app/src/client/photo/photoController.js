@@ -5,6 +5,7 @@ angular
 function PictureController($scope, PhotoService) {
 
     $scope.data = undefined;
+    $scope.safariData = undefined;
 
     $scope.isSafari = navigator.userAgent.indexOf('Safari') != -1 &&
         navigator.userAgent.indexOf('Chrome') == -1;
@@ -54,8 +55,16 @@ function PictureController($scope, PhotoService) {
         send();
     }
 
-    $scope.submitSafari = function (e) {
-        // TODO
+    $scope.submitSafari = function () {
+        if (safariData && safariData[0]) {
+            var fr = new FileReader();
+
+            fr.onload = function (e) {
+                data = e.target.result;
+                send();
+            }
+            fr.readAsDataURL(safariData[0]);
+        }
     }
 
 }

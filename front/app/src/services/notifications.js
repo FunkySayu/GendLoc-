@@ -10,6 +10,7 @@
         var cbVideo = undefined;
         var cbPhoto = undefined;
         var cbTexte = undefined;
+        var cbPhotoOp = undefined;
 
         var setCbVideo = function (callback) {
             cbVideo = callback;
@@ -19,6 +20,9 @@
         };
         var setCbTexte = function (callback) {
             cbTexte = callback;
+        };
+        var setCbPhotoOp = function(callback) {
+            cbPhotoOp = callback;
         };
 
         var connect = function (numero, role) {
@@ -41,6 +45,12 @@
             });
         };
 
+        var demanderPhoto = function (numero) {
+            socket.emit('demandePhotoOperateur', {
+                numero: numero
+            });
+        };
+
         socket.on('demandeVideo', function (message) {
             if (cbVideo) cbVideo();
         });
@@ -52,6 +62,10 @@
         socket.on('envoiFicheReflex', function (message) {
             if (cbTexte) cbTexte(message);
         });
+        
+        socket.on('receptionImageOperator', function (information) {
+            if (cbPhotoOp) cbPhotoOp(information);
+        });
 
 
         return {
@@ -59,50 +73,12 @@
             setCbVideo: setCbVideo,
             setCbPhoto: setCbPhoto,
             setCbTexte: setCbTexte,
+            setCbPhotoOp: setCbPhotoOp,
             envoieFicheReflexe: envoieFicheReflexe,
-            demanderVideo: demanderVideo
+            demanderVideo: demanderVideo,
+            demanderPhoto: demanderPhoto
         }
     }
 
-    function initWebsocketCallback($mdBottomSheet, NotificationService) {
 
-        NotificationService.connect("0645854712", "victime");
-
-        NotificationService.setCbVideo(function() {
-            $mdBottomSheet.show({
-                templateUrl: 'src/client/accueil/bottomSheet/video.html',
-                controller: function($scope, $mdBottomSheet) {
-                    $scope.fermer = function () {
-                        $mdBottomSheet.hide();
-                    }
-                }
-            });
-        });
-
-        NotificationService.setCbPhoto(function() {
-            $mdBottomSheet.show({
-                templateUrl: 'src/client/accueil/bottomSheet/photo.html',
-                controller: function($scope, $mdBottomSheet) {
-                    $scope.fermer = function () {
-                        $mdBottomSheet.hide();
-                    }
-                }
-            });
-        });
-
-        NotificationService.setCbTexte(function(lienFiche) {
-            $mdBottomSheet.show({
-                templateUrl: 'src/client/accueil/bottomSheet/reflexe.html',
-                locals: {
-                    lienFiche: lienFiche
-                },
-                controller: function($scope, $mdBottomSheet, lienFiche) {
-                    $scope.lien = lienFiche;
-                    $scope.fermer = function () {
-                        $mdBottomSheet.hide();
-                    }
-                }
-            });
-        });
-    }
 })();

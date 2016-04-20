@@ -2,5 +2,5 @@
     'use strict';
 
     // Prepare the 'users' module for subsequent registration of controllers and delegates
-    angular.module('operateur', ['ngMaterial']);
+    angular.module('operateur', ['ngMaterial', 'notification']);
 })();

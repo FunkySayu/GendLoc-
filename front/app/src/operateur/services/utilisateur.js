@@ -16,9 +16,16 @@ function UtilisateurService($http, $q, $timeout) {
     ];
 
     var recupererUtilisateurs = function () {
-        //return $q.when(utilisateurs);
-        return $http.get('../connectedVictims');
-    }
+        return $http.get('../connectedVictims').then(function(users) {
+            utilisateurs = users.data.map(function(value) {
+                return {
+                    phone: value,
+                    state: "connected"
+                }
+            });
+            return utilisateurs;
+        })
+    };
 
     var ajouterUtilisateur = function (user) {
         // TODO

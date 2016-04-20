@@ -30,18 +30,16 @@
                 .recupererUtilisateurs()
                 .then(function (users) {
 
-                    $scope.users = users.data.map(function(value) {
-                        return {
-                            phone: value,
-                            state: "connected"
-                        }
-                    });
-
-                    console.log($scope.users);
+                    $scope.users  = users;
+                    console.log(users);
 
                 });
         }
         chargerUtilisateurs();
+
+        NotificationService.setCbPhotoOp(function(information) {
+            console.log(information);
+        });
 
         // Helper pour l'ajout d'un utilisateur
         $scope.ajouterUtilisateur = function (numero) {
@@ -51,7 +49,6 @@
             };
             UtilisateurService.ajouterUtilisateur(user);
 
-            chargerUtilisateurs();
         };
 
         $scope.demanderVideo = function () {
@@ -73,6 +70,9 @@
                 });
         }
 
+        $scope.demanderPhoto = function() {
+            NotificationService.demanderPhoto($scope.selected.phone);
+        };
         /** Internal functions **/
 
         /**
@@ -134,12 +134,11 @@
                 UtilisateurService
                     .supprimerUtilisateur($scope.selected)
                     .then(function() {
-                        chargerUtilisateurs();
                         $scope.selected = undefined;
                         $scope.videoActive = false;
                     });
             }, function () {});
-        }
+        };
 
 
         $scope.selectUser = function (user) {

@@ -16,9 +16,8 @@ function UtilisateurService($http, $q, $timeout) {
     ];
 
     var recupererUtilisateurs = function () {
-        // TODO
-        // Simulation d'une requête assymétrique
-        return $q.when(utilisateurs);
+        //return $q.when(utilisateurs);
+        return $http.get('../connectedVictims');
     }
 
     var ajouterUtilisateur = function (user) {

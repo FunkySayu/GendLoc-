@@ -29,7 +29,16 @@
             UtilisateurService
                 .recupererUtilisateurs()
                 .then(function (users) {
-                    $scope.users = users;
+
+                    $scope.users = users.data.map(function(value) {
+                        return {
+                            phone: value,
+                            state: "connected"
+                        }
+                    });
+
+                    console.log($scope.users);
+
                 });
         }
         chargerUtilisateurs();

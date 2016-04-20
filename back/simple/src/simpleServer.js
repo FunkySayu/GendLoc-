@@ -175,7 +175,7 @@ io.on('connection', function (socket) {
     /** RECEPTION DE L'OPERATEUR **/
 
     socket.on('supprimerSession', function (informations) {
-        // TODO : à tester
+        // TODO : implémenter le lien avec le bouton "Supprimer cette session"
         delete victimsSockets[informations['numero']];
     });
 

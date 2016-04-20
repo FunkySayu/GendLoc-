@@ -2,7 +2,7 @@ angular
     .module('photo')
     .controller('PhotoController', PictureController);
 
-function PictureController($scope, ImageService) {
+function PictureController($scope, PhotoService) {
 
     $scope.data = undefined;
 

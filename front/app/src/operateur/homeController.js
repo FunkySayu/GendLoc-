@@ -65,8 +65,12 @@
         function chargerPhotoUtilisateur(user) {
             PhotoService.recupererPhotoParTelephone(user.phone)
                 .then(function (photos) {
-                    console.log(photos);
-                    $scope.images = photos
+                    $scope.images = [{
+                        date: "Tue Apr 19 18:04:20 UTC 2016",
+                        url: "http://votresecuriter.vip-blog.com/medias/1206/votresecuriter-vip-blog-com-722450Maison_page_index.jpg",
+                        phone: "+33680501815"
+                    }];
+                    console.log($scope.images);
                 });
         }
 

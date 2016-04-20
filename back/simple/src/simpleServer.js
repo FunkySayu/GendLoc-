@@ -3,7 +3,10 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var multer = require('multer')
+var multer = require('multer');
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // TODO : transformer en BDD
 var fichesReflexeLocation = __dirname + '/../fichesReflexe';
@@ -40,8 +43,8 @@ var photosStorage = multer.diskStorage({
     }
 })
 
-var uploadFichesReflexe = multer({ storage: fichesReflexeStorage })
-var uploadPhotos= multer({ storage: photosStorage })
+var uploadFichesReflexe = multer({storage: fichesReflexeStorage})
+var uploadPhotos = multer({storage: photosStorage})
 
 /** ROUTING **/
 
@@ -76,28 +79,35 @@ app.get('/fichesReflexe', function (req, res) {
     res.send(fichesReflexeInformations);
 });
 
+/*
+// TODO : ajout de la possibilité d'uploader des fiches reflexe en tant qu'opérateur
 app.post('/fichesReflexe', uploadFichesReflexe.array('fichesReflexe'), function (req, res, next) {
     console.log(req.files);
     console.log(req.files['fichesReflexe']);
-
-    // TODO : à tester
     // TODO : ajout BDD
 });
+*/
 
-app.post('/uploadPhoto', uploadPhotos.array('photos'), function (req, res, next) {
-    console.log(req.files);
-    console.log(req.files['photos']);
+app.post('/uploadPhoto', function (req, res, next) {
+    var imageBuffer = decodeBase64Image(req.body['photo']);
+    var numero = req.body['numero'];
+    var timestamp = Date.now();
 
-    var fileInfo = [];
-    for(var i = 0; i < req.files.length; i++) {
-        fileInfo.push({
-            "originalName": req.files[i].originalName,
-            "size": req.files[i].size,
-            "b64": new Buffer(fs.readFileSync(req.files[i].path)).toString("base64")
-        });
-        fs.unlink(req.files[i].path);
-    }
-    res.send(fileInfo);
+    var path = require('path');
+    var filendir = require('filendir');
+    var filepath = path.join(photosLocation, numero,timestamp + '.png');
+    var content = imageBuffer.data;
+
+    filendir.ws(filepath, content);
+    var informations = {
+        numero : numero,
+        nomFichier : filepath
+    };
+
+    operatorsPool.foreach(function (operatorSocket) {
+        // TODO : implement operator side
+        operatorSocket.emit('receptionImageOperator', informations);
+    });
 });
 
 /** SERVER INSTANCE **/
@@ -167,17 +177,6 @@ io.on('connection', function (socket) {
 
     /** RECEPTION DE L'OPERATEUR **/
 
-    /*
-     * informations['numero']
-     * informations['nomFichier']
-     */
-    socket.on('receptionImage', function (informations) {
-        // TODO : à tester
-        operatorsPool.foreach(function (operatorSocket) {
-            operatorSocket.emit('receptionImageOperator', informations);
-        })
-    });
-
     socket.on('supprimerSession', function (informations) {
         // TODO : à tester
         delete victimsSockets[informations['numero']];
@@ -187,3 +186,17 @@ io.on('connection', function (socket) {
         console.log('user disconnected');
     });
 });
+
+function decodeBase64Image(dataString) {
+    var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+        response = {};
+
+    if (matches.length !== 3) {
+        return new Error('Invalid input string');
+    }
+
+    response.type = matches[1];
+    response.data = new Buffer(matches[2], 'base64');
+
+    return response;
+}

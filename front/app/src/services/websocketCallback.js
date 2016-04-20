@@ -16,7 +16,9 @@
             NotificationService.setCbVideo(function () {
                 $mdBottomSheet.show({
                     templateUrl: 'src/client/accueil/bottomSheet/video.html',
-                    controller: function ($scope, $mdBottomSheet) {
+                    locals:{telephone: $routeParams.telephone},
+                    controller: function ($scope, $mdBottomSheet, telephone) {
+                        $scope.telephone = telephone;
                         $scope.fermer = function () {
                             $mdBottomSheet.hide();
                         }
@@ -27,7 +29,9 @@
             NotificationService.setCbPhoto(function () {
                 $mdBottomSheet.show({
                     templateUrl: 'src/client/accueil/bottomSheet/photo.html',
-                    controller: function ($scope, $mdBottomSheet) {
+                    locals:{telephone: $routeParams.telephone},
+                    controller: function ($scope, $mdBottomSheet, telephone) {
+                        $scope.telephone = telephone;
                         $scope.fermer = function () {
                             $mdBottomSheet.hide();
                         }
@@ -36,6 +40,7 @@
             });
 
             NotificationService.setCbTexte(function (lienFiche) {
+                //TODO: Ajouter le numero du client dans l'url (pour que la redirection soit effective)
                 $mdBottomSheet.show({
                     templateUrl: 'src/client/accueil/bottomSheet/reflexe.html',
                     locals: {

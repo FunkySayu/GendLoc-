@@ -67,7 +67,7 @@
                 .then(function (photos) {
                     $scope.images = [{
                         date: "Tue Apr 19 18:04:20 UTC 2016",
-                        url: "http://votresecuriter.vip-blog.com/medias/1206/votresecuriter-vip-blog-com-722450Maison_page_index.jpg",
+                        url: "assets/images/1.jpg",
                         phone: "+33680501815"
                     }];
                     console.log($scope.images);

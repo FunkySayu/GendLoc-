@@ -40,6 +40,7 @@
             });
 
             NotificationService.setCbTexte(function (lienFiche) {
+                //TODO: Ajouter le numero du client dans l'url (pour que la redirection soit effective)
                 $mdBottomSheet.show({
                     templateUrl: 'src/client/accueil/bottomSheet/reflexe.html',
                     locals: {

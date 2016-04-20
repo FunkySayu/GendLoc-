@@ -4,8 +4,8 @@ angular
 
 function PictureController($scope, PhotoService) {
 
-    $scope.data = undefined;
     $scope.safariData = undefined;
+    $scope.photo = undefined;
 
     $scope.isSafari = navigator.userAgent.indexOf('Safari') != -1 &&
         navigator.userAgent.indexOf('Chrome') == -1;
@@ -41,7 +41,7 @@ function PictureController($scope, PhotoService) {
     }
 
     function send() {
-        console.log(data); // TODO
+        console.log($scope.photo); // TODO
     }
 
     /** Trigger the click evvent on the snap button **/
@@ -50,7 +50,7 @@ function PictureController($scope, PhotoService) {
         var video = document.getElementById("photo");
         var context = canvas.getContext("2d");
         context.drawImage(video, 0, 0, 640, 480);
-        data = canvas.toDataURL("image/png");
+        $scope.photo = canvas.toDataURL("image/png");
 
         send();
     }
@@ -60,7 +60,7 @@ function PictureController($scope, PhotoService) {
             var fr = new FileReader();
 
             fr.onload = function (e) {
-                data = e.target.result;
+                $scope.photo = e.target.result;
                 send();
             }
             fr.readAsDataURL(safariData[0]);

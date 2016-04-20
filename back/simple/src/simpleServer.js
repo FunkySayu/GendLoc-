@@ -3,11 +3,11 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
-var m
+var multer = require('multer')
 
 // TODO : transformer en BDD
 var fichesReflexeLocation = __dirname + '/../fichesReflexe';
+var photosLocation = __dirname + '/../photos';
 var fichesReflexeDB = {
     "pollution.jpg": {
         // Valeurs d'initialisation
@@ -22,8 +22,7 @@ var fichesReflexeDB = {
     }
 };
 
-var multer = require('multer')
-var storage = multer.diskStorage({
+var fichesReflexeStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, fichesReflexeLocation)
     },
@@ -32,12 +31,26 @@ var storage = multer.diskStorage({
     }
 })
 
-var uploadFichesReflexe = multer({ storage: storage })
+var photosStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, photosLocation)
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+
+var uploadFichesReflexe = multer({ storage: fichesReflexeStorage })
+var uploadPhotos= multer({ storage: photosStorage })
 
 /** ROUTING **/
 
 app.get('/', function (req, res) {
     res.redirect('app')
+});
+
+app.get('/connectedVictims', function (req, res) {
+    res.send(victimsSockets.keys());
 });
 
 app.get('/fichesReflexe/:source', function (req, res) {
@@ -64,20 +77,28 @@ app.get('/fichesReflexe', function (req, res) {
 });
 
 app.post('/fichesReflexe', uploadFichesReflexe.array('fichesReflexe'), function (req, res, next) {
-    console.log(req.file);
+    console.log(req.files);
+    console.log(req.files['fichesReflexe']);
+
+    // TODO : à tester
     // TODO : ajout BDD
 });
 
-/*
- app.post('/fichesReflexe/upload',function(req,res){
- upload(req,res,function(err) {
- if(err) {
- return res.end("Error uploading file.");
- }
- res.end("Fiche uploadée");
- });
- });
- */
+app.post('/uploadPhoto', uploadPhotos.array('photos'), function (req, res, next) {
+    console.log(req.files);
+    console.log(req.files['photos']);
+
+    var fileInfo = [];
+    for(var i = 0; i < req.files.length; i++) {
+        fileInfo.push({
+            "originalName": req.files[i].originalName,
+            "size": req.files[i].size,
+            "b64": new Buffer(fs.readFileSync(req.files[i].path)).toString("base64")
+        });
+        fs.unlink(req.files[i].path);
+    }
+    res.send(fileInfo);
+});
 
 /** SERVER INSTANCE **/
 
@@ -146,13 +167,21 @@ io.on('connection', function (socket) {
 
     /** RECEPTION DE L'OPERATEUR **/
 
-    socket.on('receptionImage', function (idClient, nomFicher) {
-        // TODO : a tester
+    /*
+     * informations['numero']
+     * informations['nomFichier']
+     */
+    socket.on('receptionImage', function (informations) {
+        // TODO : à tester
         operatorsPool.foreach(function (operatorSocket) {
-            operatorSocket.emit('receptionImageOperator', idClient, nomFicher);
+            operatorSocket.emit('receptionImageOperator', informations);
         })
     });
 
+    socket.on('supprimerSession', function (informations) {
+        // TODO : à tester
+        delete victimsSockets[informations['numero']];
+    });
 
     socket.on('disconnect', function () {
         console.log('user disconnected');

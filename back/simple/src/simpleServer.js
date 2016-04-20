@@ -105,7 +105,6 @@ app.post('/uploadPhoto', function (req, res, next) {
     };
 
     operatorsPool.foreach(function (operatorSocket) {
-        // TODO : implement operator side
         operatorSocket.emit('receptionImageOperator', informations);
     });
 });

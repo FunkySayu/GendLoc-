@@ -19,17 +19,17 @@ de l'application Gendloc développée la Gendarmerie Nationale.
 
 ## Installation
 
-### Utilisation de Vagrand
+### Utilisation de Vagrant
 
-Pour une installation avec Vagrand, vous devez télécharger le fichier `Vagrantfile` puis lancer la commande suivante :
+Pour une installation avec Vagrant, vous devez télécharger le fichier `Vagrantfile` puis lancer la commande suivante :
   
-    $ vagrand up
+    $ vagrant up
   
 Cette commande lancera automatiquement le serveur sur le port 8081.
   
-### Sans Vagrand
+### Sans Vagrant
 
-Voici la procédure d'installation de notre projet sans utiliser Vagrand.
+Voici la procédure d'installation de notre projet sans utiliser Vagrant.
 
 Pensez à mettre à jour et installer les paquets nécessaires avec de commencer :
 
